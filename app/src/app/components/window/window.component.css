@@ -1,0 +1,72 @@
+.window-container {
+    left: calc((100vw / 2) - (480px / 2));
+    top: calc((100% / 2) - (640px / 2));
+    width: 480px;
+    height: 640px;
+    background-color: black;
+    color: white;
+    position: absolute;
+    will-change: transform;
+    display: flex;
+    flex-direction: column;
+    
+    .win-bar {
+        cursor: pointer;
+        min-width: calc(100% - 2px);
+        background-color: gray;
+        min-height: 32px;
+        border-left: 2px solid white;
+        border-top: 2px solid white;
+    }
+
+    .wb-bot {
+        min-height: 8px;
+        min-width: calc(100% - 2px);
+        background-color: gray;
+        border-left: 2px solid white;
+        cursor: s-resize;
+    }
+
+    .win-content {
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+
+        .wb-left {
+            min-width: 8px;
+            min-height: 100%;
+            background-color: gray;
+            border-left: 2px solid white;
+            border-right: 2px solid grey;
+        }
+
+        .wb-right {
+            min-width: 8px;
+            min-height: 100%;
+            background-color: gray;
+            border-left: 2px solid white;
+            border-right: 2px solid grey;
+            cursor: e-resize;
+
+        }
+
+        iframe {
+            flex: 1;
+            height: 100%;
+            user-select: none;
+            margin: 0;
+            min-width: 0;
+        }
+    }
+}
+
+.window-container.dragging {
+    cursor: move;
+    pointer-events: none;
+}
+
+.window-container.resizing {
+    cursor: move;
+    pointer-events: none;
+}
