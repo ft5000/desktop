@@ -1,6 +1,11 @@
 
-<div [id]="guid" class="window-container" [ngClass]="{'dragging': isDragging, 'resizing': isResizing}">
-    <div class="win-bar"></div>
+<div [id]="guid" class="window-container" [ngClass]="{'dragging': windowIsBeingDragged, 'resizing': windowIsBeingResized}">
+    <div class="win-bar">
+        <div class="title-bar"></div>
+        <div style="flex: 0;">
+            <button (click)="closeWindow()">X</button>
+        </div>
+    </div>
     <div class="win-content">
         <div class="wb-left"></div>
         <div class="data-outlet">

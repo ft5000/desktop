@@ -1,9 +1,11 @@
-import { Component, AfterViewInit, ViewChild, ViewContainerRef, OnInit } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ViewContainerRef, OnInit, ComponentRef } from '@angular/core';
 import { WindowComponent } from './components/window/window.component';
-import { IWindowItem, WindowService } from './services/window.service';
+import { IWindowItem, WindowModel, WindowService } from './services/window.service';
 import { AppModule } from './app.module';
 import { Subscriber } from 'rxjs';
 import { DarkDescentComponent } from './components/dark-descent/dark-descent.component';
+import { SkullSpinComponent } from './components/skull-spin/skull-spin.component';
+
 
 @Component({
   selector: 'app-root',
@@ -28,19 +30,27 @@ export class AppComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
   }
 
-  public openWindow(): void {
+  public openDarkDescent(): void {
     this.windowService.openWindow(WindowComponent, DarkDescentComponent);
+  }
+
+  public openSkull(): void {
+    this.windowService.openWindow(WindowComponent, SkullSpinComponent);
   }
 
   private onOpenWindow(window: IWindowItem<any>): void {
     this.renderWindow(window);
   }
 
+  public get openWindows(): WindowModel[] {
+    return this.windowService.openWindows;
+  }
+
   private renderWindow(window: IWindowItem<any>): void {
     console.log('renderWindow', window);
     const componentRef = this.view.createComponent(window.component);
     componentRef.instance.data = window.data;
-    // console.log('componentRef', componentRef);
-    // this.view.insert(componentRef.hostView);
+    componentRef.instance.ref = componentRef;
+    this.windowService.addOpenWindow(componentRef);
   }
 }

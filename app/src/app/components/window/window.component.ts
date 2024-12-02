@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { AppModule } from 'src/app/app.module';
+import { WindowService } from 'src/app/services/window.service';
 
 @Component({
   selector: 'app-window',
@@ -13,6 +14,7 @@ export class WindowComponent implements OnInit, AfterViewInit {
   @ViewChild('outlet', { read: ViewContainerRef }) outlet!: ViewContainerRef;
 
   data: any;
+  ref: ComponentRef<WindowComponent> | null = null;
 
   public guid: string = '';
   private left: number = 0;
@@ -22,16 +24,17 @@ export class WindowComponent implements OnInit, AfterViewInit {
   public isDragging: boolean = false;
   public isResizing: boolean = false;
   private throttleTimeout: any | null = null;
-
+  public zIndex: number = 1;
 
   private startWidth: number = 0;
   private startHeight: number = 0;
+
   private resizeDir: string = '';
 
   private mdx: number = 0;
   private mdy: number = 0;
 
-  constructor() { 
+  constructor(private windowService: WindowService) { 
     this.guid = this.generateGuid();
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
@@ -41,16 +44,18 @@ export class WindowComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initCoords();
-    // const componentRef = this.outlet.createComponent(this.data);
   }
 
   ngOnInit(): void {
-    console.log('this.data', this.data);
+
+  }
+
+  private disableWindowInteractions(): void {
+    this.windowService.windowIsBeingDragged = this.isDragging;
+    this.windowService.windowIsBeingResized = this.isResizing
   }
 
   private initCoords(): void {
-    this.left = this.container.offsetLeft;
-    this.top = this.container.offsetTop;
     this.container.style.setProperty('--xpos', `${this.left}px`);
     this.container.style.setProperty('--ypos', `${this.top}px`);
     this.container.style.width = `${this.width}px`;
@@ -60,26 +65,30 @@ export class WindowComponent implements OnInit, AfterViewInit {
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    if (target.classList.contains("win-bar") && this.container.contains(event.target as Node)) {
+    if (this.container.contains(event.target as Node)) {
       this.mdx = event.clientX - this.left;
       this.mdy = event.clientY - this.top;
-      this.initCoords();
+
+      this.reorganizeWindows();
+    }
+    if ((target.classList.contains("win-bar") || target.parentElement?.classList.contains("win-bar") ) && this.container.contains(event.target as Node)) {
+
+      this.left = this.container.offsetLeft;
+      this.top = this.container.offsetTop;
+
       this.isDragging = true;
+      this.disableWindowInteractions();
       document.addEventListener('mousemove', this.onMouseMove);
       document.addEventListener('mouseup', this.onMouseUp);
     }
     else if (target.classList.contains("wb-right") || target.classList.contains("wb-bot") && this.container.contains(event.target as Node)) {
-      this.mdx = event.clientX - this.left;
-      this.mdy = event.clientY - this.top;
+      this.isResizing = true;
 
       this.startWidth = this.width;
       this.startHeight = this.height;
 
-      this.updateSize();
-
-      this.isResizing = true;
+      this.disableWindowInteractions();
       this.resizeDir = target.classList.contains("wb-right") ? 'right' : 'bottom';
-      console.log('resizing', this.resizeDir);
       document.addEventListener('mousemove', this.onMouseMoveResize);
       document.addEventListener('mouseup', this.onMouseUpResizing);
     }
@@ -113,13 +122,18 @@ export class WindowComponent implements OnInit, AfterViewInit {
   }
 
   private updateSize(): void {
-    console.log(this.width, this.height);
     if (this.resizeDir == 'right') {
       this.container.style.width = `${this.width}px`;
     }
     if (this.resizeDir == 'bottom') {
       this.container.style.height = `${this.height}px`;
     }
+  }
+
+  public closeWindow(): void {
+    this.windowService.windowIsBeingDragged = false;
+    this.windowService.windowIsBeingResized = false;
+    this.ref?.destroy();
   }
 
   onMouseMove(event: MouseEvent): void {
@@ -139,14 +153,27 @@ export class WindowComponent implements OnInit, AfterViewInit {
     return start + (end - start) * factor;
   }
 
+  private reorganizeWindows(): void {
+    if (!this.ref) {
+      return;
+    }
+    this.windowService.setZindex(this.ref);
+  }
+
+  public setZIndex(zIndex: number) {
+    this.container.style.zIndex = zIndex.toString();
+  }
+
   onMouseUp(event?: MouseEvent): void {
     this.isDragging = false;
+    this.disableWindowInteractions();
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   }
 
   onMouseUpResizing(event?: MouseEvent): void {
     this.isResizing = false;
+    this.disableWindowInteractions();
     document.removeEventListener('mousemove', this.onMouseMoveResize);
     document.removeEventListener('mouseup', this.onMouseUpResizing);
   }
@@ -160,7 +187,6 @@ export class WindowComponent implements OnInit, AfterViewInit {
   }
 
   private updatePosition(): void {
-    console.log(this.left, this.top);
     this.container.style.setProperty('--xpos', `${this.left}px`);
     this.container.style.setProperty('--ypos', `${this.top}px`);
     this.container.style.transform = `translate(${this.left}px, ${this.top}px)`;
@@ -168,6 +194,14 @@ export class WindowComponent implements OnInit, AfterViewInit {
 
   private get container(): HTMLElement {
     return document.getElementById(this.guid) as HTMLElement;
+  }
+
+  public get windowIsBeingDragged(): boolean {
+    return this.windowService.windowIsBeingDragged
+  }
+
+  public get windowIsBeingResized(): boolean {
+    return this.windowService.windowIsBeingResized
   }
 
   private generateGuid(): string {

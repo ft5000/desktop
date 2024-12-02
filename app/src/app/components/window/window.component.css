@@ -1,3 +1,11 @@
+button {
+    all: unset;
+    color: black;
+    font-weight: bold;
+    padding: 6px;
+    user-select: none;
+}
+
 .window-container {
     left: calc((100vw / 2) - (480px / 2));
     top: calc((100% / 2) - (640px / 2));
@@ -6,23 +14,31 @@
     background-color: black;
     color: white;
     position: absolute;
-    will-change: transform;
+    /* will-change: transform; */
     display: flex;
     flex-direction: column;
+    transform: translate(var(--xpos), var(--ypos));
     
     .win-bar {
         cursor: pointer;
         min-width: calc(100% - 2px);
-        background-color: gray;
+        background-color: white;
         min-height: 32px;
         border-left: 2px solid white;
         border-top: 2px solid white;
+        
+        display: flex;
+        flex-direction: row;
+
+        .title-bar {
+            flex: 1;
+        }
     }
 
     .wb-bot {
         min-height: 12px;
         min-width: calc(100% - 2px);
-        background-color: gray;
+        background-color: white;
         border-left: 2px solid white;
         cursor: s-resize;
     }
@@ -53,17 +69,17 @@
         .wb-left {
             min-width: 8px;
             min-height: 100%;
-            background-color: gray;
+            background-color: white;
             border-left: 2px solid white;
-            border-right: 2px solid grey;
+            border-right: 2px solid white;
         }
 
         .wb-right {
             min-width: 8px;
             min-height: 100%;
-            background-color: gray;
+            background-color: white;
             border-left: 2px solid white;
-            border-right: 2px solid grey;
+            border-right: 2px solid white;
             cursor: e-resize;
 
         }
