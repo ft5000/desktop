@@ -1,14 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AppModule } from 'src/app/app.module';
 
 @Component({
   selector: 'app-window',
   standalone: true,
-  imports: [CommonModule],
+  imports: [ CommonModule ],
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.css']
 })
 export class WindowComponent implements OnInit, AfterViewInit {
+  @ViewChild('outlet', { read: ViewContainerRef }) outlet!: ViewContainerRef;
+
+  data: any;
+
   public guid: string = '';
   private left: number = 0;
   private top: number = 0;
@@ -26,7 +31,7 @@ export class WindowComponent implements OnInit, AfterViewInit {
   private mdx: number = 0;
   private mdy: number = 0;
 
-  constructor(private elRef: ElementRef) { 
+  constructor() { 
     this.guid = this.generateGuid();
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
@@ -36,10 +41,11 @@ export class WindowComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initCoords();
+    // const componentRef = this.outlet.createComponent(this.data);
   }
 
   ngOnInit(): void {
-
+    console.log('this.data', this.data);
   }
 
   private initCoords(): void {
@@ -54,7 +60,7 @@ export class WindowComponent implements OnInit, AfterViewInit {
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
     const target = event.target as HTMLElement;
-    if (target.classList.contains("win-bar") && this.elRef.nativeElement.contains(event.target)) {
+    if (target.classList.contains("win-bar") && this.container.contains(event.target as Node)) {
       this.mdx = event.clientX - this.left;
       this.mdy = event.clientY - this.top;
       this.initCoords();
@@ -62,7 +68,7 @@ export class WindowComponent implements OnInit, AfterViewInit {
       document.addEventListener('mousemove', this.onMouseMove);
       document.addEventListener('mouseup', this.onMouseUp);
     }
-    else if (target.classList.contains("wb-right") || target.classList.contains("wb-bot") && this.elRef.nativeElement.contains(event.target)) {
+    else if (target.classList.contains("wb-right") || target.classList.contains("wb-bot") && this.container.contains(event.target as Node)) {
       this.mdx = event.clientX - this.left;
       this.mdy = event.clientY - this.top;
 
