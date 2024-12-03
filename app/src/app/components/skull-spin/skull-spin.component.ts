@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './skull-spin.component.css'
 })
 export class SkullSpinComponent {
-
+  public title: string = 'Skull';
 }

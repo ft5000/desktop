@@ -1,7 +1,9 @@
 
 <div [id]="guid" class="window-container" [ngClass]="{'dragging': windowIsBeingDragged, 'resizing': windowIsBeingResized}">
     <div class="win-bar">
-        <div class="title-bar"></div>
+        <div class="title-bar">
+            <span style="margin-left: 10px; width: fit-content;">{{title}}</span>
+        </div>
         <div style="flex: 0;">
             <button (click)="closeWindow()">X</button>
         </div>
@@ -9,7 +11,7 @@
     <div class="win-content">
         <div class="wb-left"></div>
         <div class="data-outlet">
-            <ng-container *ngComponentOutlet="data"></ng-container>
+            <ng-container *captureNgComponentOutlet="data"></ng-container>
         </div>
         <!-- <iframe src="https://ft5000.github.io/dark-descent/" frameborder="0"></iframe> -->
         <div class="wb-right"></div>

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { WindowContent } from 'src/app/models/WindowContent';
 
 @Component({
   selector: 'app-dark-descent',
@@ -6,6 +7,8 @@ import { Component } from '@angular/core';
   templateUrl: './dark-descent.component.html',
   styleUrl: './dark-descent.component.css'
 })
-export class DarkDescentComponent {
-
+export class DarkDescentComponent extends WindowContent {
+  constructor() {
+    super('Dark Descent');
+  }
 }

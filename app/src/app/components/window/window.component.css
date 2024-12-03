@@ -32,6 +32,12 @@ button {
 
         .title-bar {
             flex: 1;
+            color: black;
+            font-weight: bold;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
     }
 

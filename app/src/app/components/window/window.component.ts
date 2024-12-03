@@ -1,20 +1,23 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, ComponentRef, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentRef, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { AppModule } from 'src/app/app.module';
+import { CaptureNgComponentOutletDirective } from 'src/app/directives/capture-component-outlet.directive';
 import { WindowService } from 'src/app/services/window.service';
 
 @Component({
   selector: 'app-window',
   standalone: true,
-  imports: [ CommonModule ],
+  imports: [ CommonModule, CaptureNgComponentOutletDirective ],
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.css']
 })
 export class WindowComponent implements OnInit, AfterViewInit {
-  @ViewChild('outlet', { read: ViewContainerRef }) outlet!: ViewContainerRef;
+  @ViewChild(CaptureNgComponentOutletDirective) outlet!: CaptureNgComponentOutletDirective;
 
   data: any;
   ref: ComponentRef<WindowComponent> | null = null;
+
+  public title: string = '';
 
   public guid: string = '';
   private left: number = 0;
@@ -34,7 +37,7 @@ export class WindowComponent implements OnInit, AfterViewInit {
   private mdx: number = 0;
   private mdy: number = 0;
 
-  constructor(private windowService: WindowService) { 
+  constructor(private windowService: WindowService, private cdr: ChangeDetectorRef) { 
     this.guid = this.generateGuid();
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
@@ -44,6 +47,8 @@ export class WindowComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.initCoords();
+    this.title = this.outlet.componentRef?.instance.title;
+    this.cdr.detectChanges();
   }
 
   ngOnInit(): void {
@@ -161,6 +166,9 @@ export class WindowComponent implements OnInit, AfterViewInit {
   }
 
   public setZIndex(zIndex: number) {
+    if (!this.container) {
+      return;
+    }
     this.container.style.zIndex = zIndex.toString();
   }
 
@@ -211,3 +219,4 @@ export class WindowComponent implements OnInit, AfterViewInit {
     });
   }
 }
+
