@@ -48,11 +48,16 @@ export class WindowComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.initCoords();
     this.title = this.outlet.componentRef?.instance.title;
+    this.visible = true;
     this.cdr.detectChanges();
   }
 
   ngOnInit(): void {
 
+  }
+
+  private set visible(value: boolean) {
+    this.container.style.visibility = value ? 'visible' : 'hidden';
   }
 
   private disableWindowInteractions(): void {

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { WindowContent } from 'src/app/models/WindowContent';
 
 @Component({
   selector: 'app-skull-spin',
@@ -6,6 +7,8 @@ import { Component } from '@angular/core';
   templateUrl: './skull-spin.component.html',
   styleUrl: './skull-spin.component.css'
 })
-export class SkullSpinComponent {
-  public title: string = 'Skull';
+export class SkullSpinComponent extends WindowContent {
+  constructor() {
+    super('Mortis');
+  }
 }

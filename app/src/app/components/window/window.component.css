@@ -1,7 +1,6 @@
 button {
     all: unset;
     color: black;
-    font-weight: bold;
     padding: 6px;
     user-select: none;
 }
@@ -9,31 +8,31 @@ button {
 .window-container {
     left: calc((100vw / 2) - (480px / 2));
     top: calc((100% / 2) - (640px / 2));
+    min-width: 128px;
+    min-height: 64px;
     width: 480px;
     height: 640px;
     background-color: black;
     color: white;
     position: absolute;
-    /* will-change: transform; */
     display: flex;
     flex-direction: column;
     transform: translate(var(--xpos), var(--ypos));
+    visibility: hidden;
     
     .win-bar {
         cursor: pointer;
         min-width: calc(100% - 2px);
         background-color: white;
         min-height: 32px;
-        border-left: 2px solid white;
-        border-top: 2px solid white;
         
         display: flex;
         flex-direction: row;
+        user-select: none;
 
         .title-bar {
             flex: 1;
             color: black;
-            font-weight: bold;
 
             display: flex;
             flex-direction: column;
@@ -42,10 +41,9 @@ button {
     }
 
     .wb-bot {
-        min-height: 12px;
+        min-height: 4px;
         min-width: calc(100% - 2px);
         background-color: white;
-        border-left: 2px solid white;
         cursor: s-resize;
     }
 
@@ -61,6 +59,7 @@ button {
             user-select: none;
             margin: 0;
             min-width: 0;
+            overflow: hidden;
 
             iframe {
                 /* flex: 1; */
@@ -73,21 +72,16 @@ button {
         }
 
         .wb-left {
-            min-width: 8px;
+            min-width: 4px;
             min-height: 100%;
             background-color: white;
-            border-left: 2px solid white;
-            border-right: 2px solid white;
         }
 
         .wb-right {
-            min-width: 8px;
+            min-width: 4px;
             min-height: 100%;
             background-color: white;
-            border-left: 2px solid white;
-            border-right: 2px solid white;
             cursor: e-resize;
-
         }
 
 

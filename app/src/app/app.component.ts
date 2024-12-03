@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 import { Subscriber } from 'rxjs';
 import { DarkDescentComponent } from './components/dark-descent/dark-descent.component';
 import { SkullSpinComponent } from './components/skull-spin/skull-spin.component';
+import { ReadmeComponent } from './components/readme/readme.component';
 
 
 @Component({
@@ -28,6 +29,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.openReadme();
   }
 
   public openDarkDescent(): void {
@@ -38,7 +40,12 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.windowService.openWindow(WindowComponent, SkullSpinComponent);
   }
 
+  public openReadme(): void {
+    this.windowService.openWindow(WindowComponent, ReadmeComponent);
+  }
+
   private onOpenWindow(window: IWindowItem<any>): void {
+    console.log('render', window)
     this.renderWindow(window);
   }
 
@@ -48,7 +55,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   private renderWindow(window: IWindowItem<any>): void {
     console.log('renderWindow', window);
-    const componentRef = this.view.createComponent(window.component);
+    let componentRef = this.view.createComponent(window.component);
     componentRef.instance.data = window.data;
     componentRef.instance.ref = componentRef;
     this.windowService.addOpenWindow(componentRef);
