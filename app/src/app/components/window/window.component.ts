@@ -115,7 +115,6 @@ export class WindowComponent implements OnInit, AfterViewInit {
   onMouseUpOutside(event: MouseEvent) {
     this.onMouseUp(event);
     this.onMouseUpResizing(event);
-    console.log('mouseup outside');
   }
 
   onMouseMoveResize(event: MouseEvent): void {

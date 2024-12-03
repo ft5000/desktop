@@ -58,7 +58,7 @@ button {
             height: 100%;
             margin: 0;
             min-width: 0;
-            overflow: hidden;
+            overflow: auto;
             user-select: none;
 
             iframe {
@@ -69,6 +69,28 @@ button {
                 margin: 0;
                 min-width: 0;
             }
+        }
+
+        .data-outlet::-webkit-scrollbar {
+            width: 12px;  /* Width of vertical scrollbar */
+            height: 12px; /* Height of horizontal scrollbar */
+        }
+        
+        /* The track (part the scrollbar moves along) */
+        .data-outlet::-webkit-scrollbar-track {
+            background: black;  /* Light gray track */
+            border-left: 2px dashed white;
+        }
+        
+        /* The handle (the draggable part of the scrollbar) */
+        .data-outlet::-webkit-scrollbar-thumb {
+            background: white;  /* Darker gray thumb */
+        }
+        
+        /* When the handle is hovered */
+        .data-outlet::-webkit-scrollbar-thumb:hover {
+            background: white;  /* Darker on hover */
+            cursor: grab;
         }
 
         .wb-left {
