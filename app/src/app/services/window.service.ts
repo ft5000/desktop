@@ -23,10 +23,10 @@ export class WindowService implements OnInit {
   ngOnInit(): void {
   }
 
-  public openWindow<T>(component: Type<any>, data: Type<any>): void { 
+  public openWindow<T>(component: Type<any>, data: Type<any>, w?: number, h?: number): void { 
     console.log('openWindow');
     this.windows.push({ component: component, data: data });
-    this.windowOpen.emit({ component: component, data: data });
+    this.windowOpen.emit({ component: component, data: data, width: w, height: h });
     console.log(this.windows)
   }
 
@@ -69,4 +69,6 @@ export class WindowModel {
 export interface IWindowItem<T> {
   component: Type<any>;
   data: Type<any>
+  width?: number;
+  height?: number;
 }

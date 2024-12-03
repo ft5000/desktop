@@ -14,3 +14,13 @@ body {
     font-family: "VT323";
     font-size: 14pt;
 }
+
+.row {
+    display: flex;
+    flex-direction: row;
+}
+
+.center {
+    justify-content: center;
+}
+

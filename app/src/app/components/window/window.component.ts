@@ -49,6 +49,7 @@ export class WindowComponent implements OnInit, AfterViewInit {
     this.initCoords();
     this.title = this.outlet.componentRef?.instance.title;
     this.visible = true;
+    this.reorganizeWindows();
     this.cdr.detectChanges();
   }
 
@@ -68,20 +69,20 @@ export class WindowComponent implements OnInit, AfterViewInit {
   private initCoords(): void {
     this.container.style.setProperty('--xpos', `${this.left}px`);
     this.container.style.setProperty('--ypos', `${this.top}px`);
-    this.container.style.width = `${this.width}px`;
-    this.container.style.height = `${this.height}px`;
+    this.container.style.setProperty('--width', `${this.width}px`);
+    this.container.style.setProperty('--height', `${this.height}px`);
   }
 
   @HostListener('mousedown', ['$event'])
   onMouseDown(event: MouseEvent) {
     const target = event.target as HTMLElement;
     if (this.container.contains(event.target as Node)) {
-      this.mdx = event.clientX - this.left;
-      this.mdy = event.clientY - this.top;
-
+      console.log('mousedown', event.clientX);
       this.reorganizeWindows();
     }
     if ((target.classList.contains("win-bar") || target.parentElement?.classList.contains("win-bar") ) && this.container.contains(event.target as Node)) {
+      this.mdx = event.clientX - this.left;
+      this.mdy = event.clientY - this.top;
 
       this.left = this.container.offsetLeft;
       this.top = this.container.offsetTop;
@@ -93,6 +94,13 @@ export class WindowComponent implements OnInit, AfterViewInit {
     }
     else if (target.classList.contains("wb-right") || target.classList.contains("wb-bot") && this.container.contains(event.target as Node)) {
       this.isResizing = true;
+
+      this.mdx = event.clientX;
+      this.mdy = event.clientY;
+
+      const rect = this.container.getBoundingClientRect();
+      this.width = rect.width;
+      this.height = rect.height;
 
       this.startWidth = this.width;
       this.startHeight = this.height;
@@ -120,23 +128,26 @@ export class WindowComponent implements OnInit, AfterViewInit {
     if (this.resizeDir == 'bottom') {
       this.setHeight(this.startHeight + deltaY);
     }
+
     this.updateSize();
   }
 
-  private setWidth(width: number): void {
-    this.width = width;
+  private setWidth(width?: number): void {
+    if (!width) { this.width = this.width; return; }
+    this.width = width >= 128 ? width : 128;
   }
 
-  private setHeight(height: number): void {
-    this.height = height;
+  private setHeight(height?: number): void {
+    if (!height) { this.height = this.height; return; }
+    this.height = height >= 64 ? height : 64;
   }
 
   private updateSize(): void {
     if (this.resizeDir == 'right') {
-      this.container.style.width = `${this.width}px`;
+      this.container.style.setProperty('--width', `${this.width}px`);
     }
     if (this.resizeDir == 'bottom') {
-      this.container.style.height = `${this.height}px`;
+      this.container.style.setProperty('--height', `${this.height}px`);
     }
   }
 
@@ -177,14 +188,16 @@ export class WindowComponent implements OnInit, AfterViewInit {
     this.container.style.zIndex = zIndex.toString();
   }
 
-  onMouseUp(event?: MouseEvent): void {
+  onMouseUp(event: MouseEvent): void {
+    this.onMouseMove(event);
     this.isDragging = false;
     this.disableWindowInteractions();
     document.removeEventListener('mousemove', this.onMouseMove);
     document.removeEventListener('mouseup', this.onMouseUp);
   }
 
-  onMouseUpResizing(event?: MouseEvent): void {
+  onMouseUpResizing(event: MouseEvent): void {
+    this.onMouseMoveResize(event);
     this.isResizing = false;
     this.disableWindowInteractions();
     document.removeEventListener('mousemove', this.onMouseMoveResize);
