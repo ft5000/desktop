@@ -77,7 +77,6 @@ export class WindowComponent implements OnInit, AfterViewInit {
   onMouseDown(event: MouseEvent) {
     const target = event.target as HTMLElement;
     if (this.container.contains(event.target as Node)) {
-      console.log('mousedown', event.clientX);
       this.reorganizeWindows();
     }
     if ((target.classList.contains("win-bar") || target.parentElement?.classList.contains("win-bar") ) && this.container.contains(event.target as Node)) {
@@ -92,7 +91,7 @@ export class WindowComponent implements OnInit, AfterViewInit {
       document.addEventListener('mousemove', this.onMouseMove);
       document.addEventListener('mouseup', this.onMouseUp);
     }
-    else if (target.classList.contains("wb-right") || target.classList.contains("wb-bot") && this.container.contains(event.target as Node)) {
+    else if (target.classList.contains("wb-right") || target.classList.contains("wb-bot")) {
       this.isResizing = true;
 
       this.mdx = event.clientX;
@@ -116,6 +115,7 @@ export class WindowComponent implements OnInit, AfterViewInit {
   onMouseUpOutside(event: MouseEvent) {
     this.onMouseUp(event);
     this.onMouseUpResizing(event);
+    console.log('mouseup outside');
   }
 
   onMouseMoveResize(event: MouseEvent): void {
@@ -189,7 +189,6 @@ export class WindowComponent implements OnInit, AfterViewInit {
   }
 
   onMouseUp(event: MouseEvent): void {
-    this.onMouseMove(event);
     this.isDragging = false;
     this.disableWindowInteractions();
     document.removeEventListener('mousemove', this.onMouseMove);
@@ -197,7 +196,6 @@ export class WindowComponent implements OnInit, AfterViewInit {
   }
 
   onMouseUpResizing(event: MouseEvent): void {
-    this.onMouseMoveResize(event);
     this.isResizing = false;
     this.disableWindowInteractions();
     document.removeEventListener('mousemove', this.onMouseMoveResize);
