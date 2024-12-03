@@ -58,7 +58,7 @@ button {
             height: 100%;
             margin: 0;
             min-width: 0;
-            overflow: auto;
+            overflow-y: auto;
             user-select: none;
 
             iframe {
@@ -69,6 +69,10 @@ button {
                 margin: 0;
                 min-width: 0;
             }
+        }
+
+        .data-outlet:has(iframe) {
+            overflow: hidden;
         }
 
         .data-outlet::-webkit-scrollbar {
