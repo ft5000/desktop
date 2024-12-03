@@ -33,7 +33,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public openDarkDescent(): void {
-    this.windowService.openWindow(WindowComponent, DarkDescentComponent);
+    this.windowService.openWindow(WindowComponent, DarkDescentComponent, 872, 702);
   }
 
   public openSkull(): void {

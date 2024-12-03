@@ -26,7 +26,6 @@ export class WindowComponent implements OnInit, AfterViewInit {
   public height: number = 600;
   public isDragging: boolean = false;
   public isResizing: boolean = false;
-  private throttleTimeout: any | null = null;
   public zIndex: number = 1;
 
   private startWidth: number = 0;
@@ -79,7 +78,8 @@ export class WindowComponent implements OnInit, AfterViewInit {
     if (this.container.contains(event.target as Node)) {
       this.reorganizeWindows();
     }
-    if ((target.classList.contains("win-bar") || target.parentElement?.classList.contains("win-bar") ) && this.container.contains(event.target as Node)) {
+    
+    if ((target.classList.contains("win-bar") || this.hasParentWithClass(target, 'win-bar')) && this.container.contains(target as Node)) {
       this.mdx = event.clientX - this.left;
       this.mdy = event.clientY - this.top;
 
@@ -97,9 +97,8 @@ export class WindowComponent implements OnInit, AfterViewInit {
       this.mdx = event.clientX;
       this.mdy = event.clientY;
 
-      const rect = this.container.getBoundingClientRect();
-      this.width = rect.width;
-      this.height = rect.height;
+      this.width = this.container.getBoundingClientRect().width;
+      this.height = this.container.getBoundingClientRect().height;
 
       this.startWidth = this.width;
       this.startHeight = this.height;
@@ -158,14 +157,9 @@ export class WindowComponent implements OnInit, AfterViewInit {
 
   onMouseMove(event: MouseEvent): void {
     if (this.isDragging) {
-      if (!this.throttleTimeout) {
-        this.throttleTimeout = setTimeout(() => {
-          this.throttleTimeout = null; // Reset timeout
-          this.setXPos(event.clientX - this.mdx);
-          this.setYPos(event.clientY - this.mdy);
-          this.updatePosition();
-        }, 10);
-      }
+      this.setXPos(event.clientX - this.mdx);
+      this.setYPos(event.clientY - this.mdy);
+      this.updatePosition();
     }
   }
 
@@ -233,5 +227,16 @@ export class WindowComponent implements OnInit, AfterViewInit {
       return v.toString(16);
     });
   }
+
+  private hasParentWithClass(child: HTMLElement, className: string) {
+    let element = child.parentElement; // Start with the parent
+    while (element) {
+        if (element.classList && element.classList.contains(className)) {
+            return true;
+        }
+        element = element.parentElement; // Move to the next parent
+    }
+    return false;
+}
 }
 
