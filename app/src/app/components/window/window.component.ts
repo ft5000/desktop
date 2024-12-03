@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentRef, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ComponentRef, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { AppModule } from 'src/app/app.module';
 import { CaptureNgComponentOutletDirective } from 'src/app/directives/capture-component-outlet.directive';
 import { WindowService } from 'src/app/services/window.service';
@@ -11,7 +11,7 @@ import { WindowService } from 'src/app/services/window.service';
   templateUrl: './window.component.html',
   styleUrls: ['./window.component.css']
 })
-export class WindowComponent implements OnInit, AfterViewInit {
+export class WindowComponent implements AfterViewInit {
   @ViewChild(CaptureNgComponentOutletDirective) outlet!: CaptureNgComponentOutletDirective;
 
   data: any;
@@ -47,17 +47,13 @@ export class WindowComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.initCoords();
     this.title = this.outlet.componentRef?.instance.title;
-    this.visible = true;
     this.reorganizeWindows();
+    this.visible = true;
     this.cdr.detectChanges();
   }
 
-  ngOnInit(): void {
-
-  }
-
   private set visible(value: boolean) {
-    this.container.style.visibility = value ? 'visible' : 'hidden';
+    this.container.style.opacity = value ? '1' : '0';
   }
 
   private disableWindowInteractions(): void {
@@ -79,7 +75,7 @@ export class WindowComponent implements OnInit, AfterViewInit {
       this.reorganizeWindows();
     }
     
-    if ((target.classList.contains("win-bar") || this.hasParentWithClass(target, 'win-bar')) && this.container.contains(target as Node)) {
+    if (this.hasClickedWindowBar(target)) {
       this.mdx = event.clientX - this.left;
       this.mdy = event.clientY - this.top;
 
@@ -108,6 +104,12 @@ export class WindowComponent implements OnInit, AfterViewInit {
       document.addEventListener('mousemove', this.onMouseMoveResize);
       document.addEventListener('mouseup', this.onMouseUpResizing);
     }
+  }
+
+  private hasClickedWindowBar(target: HTMLElement): boolean {
+    return (target.classList.contains("win-bar") || this.hasParentWithClass(target, 'win-bar')) && 
+            this.container.contains(target as Node) &&
+            !target.parentElement?.classList.contains('bar-controls');
   }
 
   @HostListener('mouseup', ['$event'])

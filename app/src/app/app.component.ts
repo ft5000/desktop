@@ -58,10 +58,8 @@ export class AppComponent implements OnInit, AfterViewInit {
     let componentRef = this.view.createComponent(window.component);
     componentRef.instance.data = window.data;
     componentRef.instance.ref = componentRef;
-
     componentRef.instance.setWidth(window.width);
     componentRef.instance.setHeight(window.height);
-
     this.windowService.addOpenWindow(componentRef);
   }
 }
