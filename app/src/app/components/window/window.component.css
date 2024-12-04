@@ -18,7 +18,7 @@ button {
     display: flex;
     flex-direction: column;
     transform: translate(var(--xpos), var(--ypos));
-    transition: opacity 0.1s, transform 60ms;
+    transition: opacity 160ms, transform 80ms, width 60ms, height 60ms;
     opacity: 0;
     
     .win-bar {

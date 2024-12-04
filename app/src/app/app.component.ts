@@ -41,7 +41,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public openReadme(): void {
-    this.windowService.openWindow(WindowComponent, ReadmeComponent, 640, 560);
+    this.windowService.openWindow(WindowComponent, ReadmeComponent, 545, 326);
   }
 
   private onOpenWindow(window: IWindowItem<any>): void {

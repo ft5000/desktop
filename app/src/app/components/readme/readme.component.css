@@ -3,9 +3,8 @@
     padding: 10px;
     background-color: black;
     user-select: text;
-
     max-width: 100%;
-    max-width: 100%;
+    min-height: 360px;
     margin: 0;
     min-width: 0;
 

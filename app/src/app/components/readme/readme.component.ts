@@ -9,6 +9,6 @@ import { WindowContent } from 'src/app/models/WindowContent';
 })
 export class ReadmeComponent extends WindowContent {
   constructor() {
-    super('readme.txt');
+    super('readme');
   }
 }

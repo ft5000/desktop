@@ -9,6 +9,9 @@ body {
     margin: 0;
     padding: 0;
     background-color: black;
+    /* background-image: url(./assets/images/bg_1.png);
+    background-size: cover;
+    background-repeat: round; */
     color: white;
     overflow: hidden;
     font-family: "VT323";
@@ -22,5 +25,13 @@ body {
 
 .center {
     justify-content: center;
+}
+
+a {
+    color: white;  
+}
+
+a:hover {
+    color: blue;
 }
 
