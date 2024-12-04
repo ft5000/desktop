@@ -1,0 +1,14 @@
+.icon{
+    padding: 8px;
+    width: 76px;
+    text-align: center;
+}
+
+.icon:hover {
+    cursor: pointer;
+
+    span {
+        color: white;
+        text-decoration: underline;
+    }
+}

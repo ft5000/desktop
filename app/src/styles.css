@@ -9,9 +9,10 @@ body {
     margin: 0;
     padding: 0;
     background-color: black;
-    /* background-image: url(./assets/images/bg_1.png);
+    background-image: url(./assets/images/bg_2.png);
     background-size: cover;
-    background-repeat: round; */
+    image-rendering: pixelated;
+    background-repeat: round;
     color: white;
     overflow: hidden;
     font-family: "VT323";

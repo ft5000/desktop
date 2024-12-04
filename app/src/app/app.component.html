@@ -1,29 +1,25 @@
 <main>
   <div class="icon-grid">
-    <div class="grid-item">
-      <div class="row center">
-        <img src="../assets/images/text_doc_icon_1.png" (click)="openDarkDescent()">
-      </div>
-      <div class="row center" style="margin-top: 6px;">
-        <span>dark-descent.exe</span>
-      </div>
-    </div>
-    <div class="grid-item">
-      <div class="row center">
-        <img src="../assets/images/text_doc_icon_1.png" (click)="openSkull()">
-      </div>
-      <div class="row center" style="margin-top: 6px;">
-        <span>mortis.exe</span>
-      </div>
-    </div>
-    <div class="grid-item">
-      <div class="row center">
-        <img src="../assets/images/text_doc_icon_1.png" (click)="openReadme()">
-      </div>
-      <div class="row center" style="margin-top: 6px;">
-        <span>readme.txt</span>
-      </div>
-    </div>
+    <app-icon 
+      text="dark-descent"
+      src="../assets/images/flop_icon_1.png"
+      (onClick)="openDarkDescent()">
+    </app-icon>
+    <app-icon 
+      text="mortis" 
+      src="../assets/images/sketch_icon_1.png"
+      (onClick)="openSkull()">
+    </app-icon>
+    <app-icon 
+          text="readme"
+          src="../assets/images/pad_icon_1.png"
+          (onClick)="openReadme()">
+    </app-icon>
+    <app-icon 
+      text="contact"
+      src="../assets/images/contact_icon_2.png"
+      (onClick)="openReadme()">
+</app-icon>
   </div>
   <div #view></div>
   <!-- <div class="toolbar"></div> -->

@@ -9,7 +9,7 @@ main {
     user-select: none;
     margin: 16px;
 
-    .grid-item {
+    /* .grid-item {
         padding: 8px;
         width: 76px;
         text-align: center;
@@ -22,7 +22,7 @@ main {
             color: darkgray;
             text-decoration: underline;
         }
-    }
+    } */
 }
 
 .toolbar {

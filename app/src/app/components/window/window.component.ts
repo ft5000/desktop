@@ -165,11 +165,7 @@ export class WindowComponent implements AfterViewInit {
     }
   }
 
-  private lerp(start: number, end: number, factor: number): number {
-    return start + (end - start) * factor;
-  }
-
-  private reorganizeWindows(): void {
+  public reorganizeWindows(): void {
     if (!this.ref) {
       return;
     }

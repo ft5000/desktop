@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { WindowComponent } from './components/window/window.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { CaptureNgComponentOutletDirective } from './directives/capture-component-outlet.directive';
+import { IconComponent } from './components/icon/icon.component';
 
 
 
@@ -13,10 +14,12 @@ import { CaptureNgComponentOutletDirective } from './directives/capture-componen
   imports: [
     CommonModule,
     WindowComponent,
+    IconComponent,
   ],
   exports: [
     CommonModule,
     WindowComponent,
+    IconComponent,
   ],
   bootstrap: [AppComponent]
 })
