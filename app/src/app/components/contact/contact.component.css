@@ -1,0 +1,28 @@
+.contact-container {
+    font-size: 16pt;
+    padding: 10px;
+    background-color: black;
+    user-select: text;
+    max-width: 100%;
+    min-height: 360px;
+    margin: 0;
+    min-width: 0;
+
+    ::selection {
+        color: black;
+        background: white;
+      }
+
+    hr {
+        border-style: dashed; 
+    }
+
+    h1 {
+        all: unset;
+    }
+}
+
+pre {
+    line-height: 0;
+    font-family: 'VT323';
+}

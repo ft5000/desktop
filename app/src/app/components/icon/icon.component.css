@@ -1,4 +1,6 @@
 .icon{
+    all: unset;
+    display: block;
     padding: 8px;
     width: 76px;
     text-align: center;
@@ -11,4 +13,9 @@
         color: white;
         text-decoration: underline;
     }
+}
+
+.icon:active img {
+    outline: 1px dashed white;
+    outline-offset: 4px;
 }

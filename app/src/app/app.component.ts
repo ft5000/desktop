@@ -6,6 +6,7 @@ import { Subscriber } from 'rxjs';
 import { DarkDescentComponent } from './components/dark-descent/dark-descent.component';
 import { SkullSpinComponent } from './components/skull-spin/skull-spin.component';
 import { ReadmeComponent } from './components/readme/readme.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 
 @Component({
@@ -42,6 +43,10 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   public openReadme(): void {
     this.windowService.openWindow(WindowComponent, ReadmeComponent, 545, 326);
+  }
+
+  public openContact(): void {
+    this.windowService.openWindow(WindowComponent, ContactComponent, 420, 326);
   }
 
   private onOpenWindow(window: IWindowItem<any>): void {
