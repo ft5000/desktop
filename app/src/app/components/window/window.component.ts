@@ -27,6 +27,8 @@ export class WindowComponent implements AfterViewInit {
   public isDragging: boolean = false;
   public isResizing: boolean = false;
   public zIndex: number = 1;
+  public hidden = true;
+  public keepHidden = false;
 
   private startWidth: number = 0;
   private startHeight: number = 0;
@@ -45,15 +47,14 @@ export class WindowComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    if (this.keepHidden) {
+      this.container.style.display = 'none';
+    }
     this.initCoords();
     this.title = this.outlet.componentRef?.instance.title;
     this.reorganizeWindows();
-    this.visible = true;
+    this.container.classList.remove('hidden');
     this.cdr.detectChanges();
-  }
-
-  private set visible(value: boolean) {
-    this.container.style.opacity = value ? '1' : '0';
   }
 
   private disableWindowInteractions(): void {
@@ -207,7 +208,7 @@ export class WindowComponent implements AfterViewInit {
     this.container.style.transform = `translate(${this.left}px, ${this.top}px)`;
   }
 
-  private get container(): HTMLElement {
+  public get container(): HTMLElement {
     return document.getElementById(this.guid) as HTMLElement;
   }
 

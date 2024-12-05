@@ -18,9 +18,8 @@ button {
     display: flex;
     flex-direction: column;
     transform: translate(var(--xpos), var(--ypos));
-    transition: opacity 160ms, transform 80ms, width 60ms, height 60ms;
-    opacity: 0;
-    
+    transition: opacity 240ms, transform 80ms, width 60ms, height 60ms;
+
     .win-bar {
         cursor: pointer;
         min-width: calc(100% - 2px);
@@ -123,4 +122,8 @@ button {
 .window-container.resizing {
     cursor: move;
     pointer-events: none;
+}
+
+.hidden {
+    opacity: 0;
 }

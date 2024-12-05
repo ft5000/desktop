@@ -8,21 +8,6 @@ main {
     grid-template-columns: auto;
     user-select: none;
     margin: 16px;
-
-    /* .grid-item {
-        padding: 8px;
-        width: 76px;
-        text-align: center;
-    }
-
-    .grid-item:hover {
-        cursor: pointer;
-
-        span {
-            color: darkgray;
-            text-decoration: underline;
-        }
-    } */
 }
 
 .toolbar {
@@ -33,5 +18,4 @@ main {
     height: 48px;
     z-index: 2048;
     background-color: white;
-    /* border-top: 2px dashed white; */
 }

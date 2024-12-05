@@ -17,9 +17,10 @@ import { ContactComponent } from './components/contact/contact.component';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnInit, AfterViewInit {
-  @ViewChild('view', { read: ViewContainerRef }) view!: ViewContainerRef;
+  @ViewChild('view', { read: ViewContainerRef, static: true }) view!: ViewContainerRef;
 
   private subscribers = new Subscriber();
+  private isRendering = false;
   
   constructor(private windowService: WindowService) {
 
@@ -30,6 +31,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+
+    let ref = this.view.createComponent(WindowComponent); // Create a window component 
+    ref.instance.keepHidden = true; // and keep it hidden to prevent flickering
     this.openReadme();
   }
 
@@ -59,12 +63,15 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   private renderWindow(window: IWindowItem<any>): void {
+    if (this.isRendering) return;
+    this.isRendering = true;
     console.log('renderWindow', window);
-    let componentRef = this.view.createComponent(window.component);
+    let componentRef = this.view.createComponent(window.component)
     componentRef.instance.data = window.data;
     componentRef.instance.ref = componentRef;
     componentRef.instance.setWidth(window.width);
     componentRef.instance.setHeight(window.height);
     this.windowService.addOpenWindow(componentRef);
+    this.isRendering = false;
   }
 }
