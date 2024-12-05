@@ -155,6 +155,7 @@ export class WindowComponent implements AfterViewInit {
   public closeWindow(): void {
     this.windowService.windowIsBeingDragged = false;
     this.windowService.windowIsBeingResized = false;
+    this.windowService.removeWindow(this.guid);
     this.ref?.destroy();
   }
 

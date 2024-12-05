@@ -5,8 +5,6 @@ import { WindowComponent } from '../components/window/window.component';
   providedIn: 'root'
 })
 export class WindowService implements OnInit {
-  private windows = new Array<IWindowItem<any>>();
-
   private windowOpen: EventEmitter<IWindowItem<any>> = new EventEmitter<IWindowItem<any>>();
   public windowOpen$ = this.windowOpen.asObservable();
 
@@ -24,10 +22,7 @@ export class WindowService implements OnInit {
   }
 
   public openWindow<T>(component: Type<any>, data: Type<any>, w?: number, h?: number): void { 
-    console.log('openWindow');
-    this.windows.push({ component: component, data: data });
     this.windowOpen.emit({ component: component, data: data, width: w, height: h });
-    console.log(this.windows)
   }
 
   public addOpenWindow(ref: ComponentRef<WindowComponent>): void {
@@ -38,6 +33,12 @@ export class WindowService implements OnInit {
 
   public get openWindows(): WindowModel[] {
     return this.openWindows;
+  }
+
+  public removeWindow(guid: string): void {
+    console.log('removeWindow', guid);
+    this._openWindows = this._openWindows.filter((w: WindowModel) => { return w.ref.instance.guid != guid });
+    console.log(this._openWindows);
   }
 
   public setZindex(ref: ComponentRef<WindowComponent>): void {
@@ -54,7 +55,7 @@ export class WindowService implements OnInit {
   }
 
   public get newZIndex(): number {
-    return this.windows.length + 1;
+    return this._openWindows.length + 1;
   }
 }
 
