@@ -31,7 +31,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-
     let ref = this.view.createComponent(WindowComponent); // Create a window component 
     ref.instance.keepHidden = true; // and keep it hidden to prevent flickering
     this.openReadme();
