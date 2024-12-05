@@ -1,13 +1,12 @@
 import { Component, AfterViewInit, ViewChild, ViewContainerRef, OnInit, ComponentRef } from '@angular/core';
 import { WindowComponent } from './components/window/window.component';
-import { IWindowItem, WindowModel, WindowService } from './services/window.service';
+import { IWindowItem, WindowService } from './services/window.service';
 import { AppModule } from './app.module';
 import { Subscriber } from 'rxjs';
 import { DarkDescentComponent } from './components/dark-descent/dark-descent.component';
 import { SkullSpinComponent } from './components/skull-spin/skull-spin.component';
 import { ReadmeComponent } from './components/readme/readme.component';
 import { ContactComponent } from './components/contact/contact.component';
-
 
 @Component({
   selector: 'app-root',
@@ -55,10 +54,6 @@ export class AppComponent implements OnInit, AfterViewInit {
   private onOpenWindow(window: IWindowItem<any>): void {
     console.log('render', window)
     this.renderWindow(window);
-  }
-
-  public get openWindows(): WindowModel[] {
-    return this.windowService.openWindows;
   }
 
   private renderWindow(window: IWindowItem<any>): void {

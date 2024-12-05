@@ -1,4 +1,26 @@
 <div class="toolbar">
-    <div class="row">
+    <div class="col center h-100">
+        <div class="row h-100 max-w-100">
+            <ng-container *ngIf="hasOpenWindows">
+                <ng-container *ngFor="let tab of tabs">
+                    <div class="tab">
+                        <div class="row h-100 max-w-100">
+                            <div class="tab-info" (click)="focusWindow(tab)">
+                                <div class="col center h-100">
+                                    &nbsp;&nbsp;<span>{{tab.item?.title}}</span>&nbsp;&nbsp;
+                                </div>
+
+                            </div>
+                            <div class="tab-controls">
+                                <div class="col center h-100">
+                                    <button (click)="closeWindow(tab)">X</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
     </div>
 </div>

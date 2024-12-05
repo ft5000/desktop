@@ -1,5 +1,6 @@
 import { ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, OnInit, Type } from '@angular/core';
 import { WindowComponent } from '../components/window/window.component';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +9,8 @@ export class WindowService implements OnInit {
   private windowOpen: EventEmitter<IWindowItem<any>> = new EventEmitter<IWindowItem<any>>();
   public windowOpen$ = this.windowOpen.asObservable();
 
-  private _openWindows: WindowModel[] = [];
+  private _openWindows: BehaviorSubject<WindowModel[]> = new BehaviorSubject<WindowModel[]>([]);
+  public _openWindows$ = this._openWindows.asObservable();
 
   public windowIsBeingDragged: boolean = false;
   public windowIsBeingResized: boolean = false;
@@ -21,41 +23,55 @@ export class WindowService implements OnInit {
   ngOnInit(): void {
   }
 
-  public openWindow<T>(component: Type<any>, data: Type<any>, w?: number, h?: number): void { 
+  public openWindow<T>(component: Type<any>, data: Type<any>, w?: number, h?: number): void {
+    if (this.openWindows.length >= 12) {
+      return;
+    }
+    console.log('openWindow', this.openWindows.length);
     this.windowOpen.emit({ component: component, data: data, width: w, height: h });
   }
 
   public addOpenWindow(ref: ComponentRef<WindowComponent>): void {
     let model = new WindowModel(ref)
-    model.zIndex = this._openWindows.length + 1;
-    this._openWindows.push(new WindowModel(ref)); 
+    model.zIndex = this.openWindows.length + 1;
+    this.addToOpenWindows(new WindowModel(ref)); 
   }
 
   public get openWindows(): WindowModel[] {
-    return this.openWindows;
+    return this._openWindows.getValue();
+  }
+
+  public set openWindows(value: WindowModel[]) {
+    this._openWindows.next(value);
+  }
+
+  public addToOpenWindows(newValue: WindowModel): void {
+    const currentArray = this._openWindows.getValue();
+    const updatedArray = [...currentArray, newValue];
+    this.openWindows = updatedArray
   }
 
   public removeWindow(guid: string): void {
     console.log('removeWindow', guid);
-    this._openWindows = this._openWindows.filter((w: WindowModel) => { return w.ref.instance.guid != guid });
+    this.openWindows = this.openWindows.filter((w: WindowModel) => { return w.ref.instance.guid != guid });
     console.log(this._openWindows);
   }
 
   public setZindex(ref: ComponentRef<WindowComponent>): void {
-    let model = this._openWindows.find((w: WindowModel) => { return w.ref === ref });
+    let model = this.openWindows.find((w: WindowModel) => { return w.ref === ref });
     if (!model) {
       return
     }
-    this._openWindows = this._openWindows.filter((w: WindowModel) => { return w.ref !== ref });
-    this._openWindows.push(model);
+    this.openWindows = this.openWindows.filter((w: WindowModel) => { return w.ref !== ref });
+    this.addToOpenWindows(model);
 
-    this._openWindows.forEach((w: WindowModel, i: number) => {
+    this.openWindows.forEach((w: WindowModel, i: number) => {
       w.ref.instance.setZIndex(i + 1);
     });
   }
 
   public get newZIndex(): number {
-    return this._openWindows.length + 1;
+    return this.openWindows.length + 1;
   }
 }
 

@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, ComponentRef, ElementRef, HostListener, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
-import { AppModule } from 'src/app/app.module';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentRef, HostListener, ViewChild } from '@angular/core';
 import { CaptureNgComponentOutletDirective } from 'src/app/directives/capture-component-outlet.directive';
 import { WindowService } from 'src/app/services/window.service';
 
