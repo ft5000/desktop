@@ -18,8 +18,10 @@ button {
     display: flex;
     flex-direction: column;
     transform: translate(var(--xpos), var(--ypos));
-    transition: opacity 120ms, transform 30ms, width 60ms, height 60ms;
+    transition: opacity 120ms, transform 60ms, width 60ms, height 60ms;
+
     outline: 2px solid black;
+    /* box-shadow: 4px 4px 0 0 black; */
 
     .win-bar {
         cursor: pointer;

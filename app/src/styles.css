@@ -9,15 +9,15 @@ body {
     padding: 0;
     background-color: black;
     background-image: url(./assets/images/bg_2.png);
-    background-size: 100% 90%; /* Cover ensures the image covers the whole body */
+    background-size: 100% 90%;
     background-repeat: no-repeat;
     background-position-y: bottom;
     image-rendering: pixelated;
+    /* aspect-ratio: 320 / 169; */
     color: white;
     overflow: hidden;
     font-family: "VT323";
     font-size: 14pt;
-    transition-behavior: smooth;
 }
 
 .row {
@@ -60,6 +60,6 @@ a:hover {
 
 @media (max-width: 1920px) {
     body {
-        background-size: 1920px 90%; /* Cover ensures the image covers the whole body */
+        background-size: 1920px 90%;
     }
 }

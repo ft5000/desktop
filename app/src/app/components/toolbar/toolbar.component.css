@@ -9,7 +9,6 @@
     left: 0;
     transition: height 60ms;
     user-select: none;
-    outline: 2px solid white;
     border-top: 2px solid black;
 
     .tab {
@@ -20,6 +19,7 @@
         max-width: 256px;
         min-width: 64px;
         border-right: 2px solid black;
+        transition: filter 240ms;
 
         .tab-info {
             display: flex;
@@ -69,6 +69,7 @@
 
     .focus {
         filter: invert(1);
+        color: white;
     }
 }
 
