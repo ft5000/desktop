@@ -16,40 +16,18 @@ export class ToolbarComponent implements OnInit {
 
   public tabs: TabIdModel[] = [];
   public hasOpenWindows: boolean = false;
-  public index: number = 0;
 
   constructor(private windowService: WindowService) {
   }
 
   ngOnInit(): void {
     this.subscribers.add(this.windowService._openWindows$.subscribe((windows: WindowModel[]) => {
-      const allWindowsInTabs = windows.every(w =>
-        this.tabs.some(t => t.item.guid === w.ref.instance.guid)
-      );
-      
-      if (allWindowsInTabs && this.tabs.length > 0) {
-        return; // All windows already exist in tabs; no need to proceed
-      }
-      
-      if (windows.length === 0) {
-        this.index = 0; // Reset the index if there are no windows
-      }
-
-      // Only add new tabs and keep existing ones' IDs intact
       windows.forEach((w: WindowModel) => {
-        const existingTab = this.tabs.find(t => t.item.guid == w.ref.instance.guid);
-        if (!existingTab) {
-          this.tabs.push(new TabIdModel(Number(this.index), w.ref.instance));
-          this.index++;
+        if (!this.tabs.some(t => t.item.guid === w.ref.instance.guid)) {
+          this.tabs.push({ id: this.tabs.length, item: w.ref.instance });
         }
       });
-    
-      // Remove any tabs that are no longer in the windows list
-      this.tabs = this.tabs.filter(t => windows.some(w => w.ref.instance.guid == t.item.guid));
-    
-      // Sort tabs by ID
-      this.tabs.sort((a, b) => a.id - b.id);
-    
+      this.tabs = this.tabs.filter(t => windows.some(w => w.ref.instance.guid === t.item.guid));
       this.hasOpenWindows = this.tabs.length > 0;
     }));
   }

@@ -25,7 +25,6 @@ export class WindowComponent implements AfterViewInit {
   public height: number = 600;
   public isDragging: boolean = false;
   public isResizing: boolean = false;
-  public zIndex: number = 1;
   public hidden = true;
   public keepHidden = false;
 

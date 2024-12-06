@@ -62,16 +62,18 @@ export class WindowService implements OnInit {
     if (!model) {
       return
     }
-    this.openWindows = this.openWindows.filter((w: WindowModel) => { return w.ref !== ref });
-    this.addToOpenWindows(model);
-
-    this.openWindows.forEach((w: WindowModel, i: number) => {
-      w.ref.instance.setZIndex(i + 1);
-    });
+    model.zIndex = this.newZIndex
+    model.ref?.instance.setZIndex(model.zIndex)
+    console.log('setZindex', model.zIndex);
   }
 
   public get newZIndex(): number {
-    return this.openWindows.length + 1;
+    if (this.openWindows.length === 0) {
+      return 1;
+    }
+    var sorted = this.openWindows.map((w: WindowModel) => w.zIndex).sort((a, b) => a - b);
+    console.log(sorted)
+    return sorted[sorted.length - 1] + 1;
   }
 }
 
