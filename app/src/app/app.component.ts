@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
       }
       document.title = title.join('');
-    })
+    }, 100)
   }
 
   ngAfterViewInit(): void {
