@@ -49,6 +49,7 @@ export class WindowComponent implements AfterViewInit {
       this.container.style.display = 'none';
     }
     this.initCoords();
+    this.center();
     this.title = this.outlet.componentRef?.instance.title;
     this.reorganizeWindows();
     this.container.classList.remove('hidden');
@@ -153,8 +154,12 @@ export class WindowComponent implements AfterViewInit {
   public closeWindow(): void {
     this.windowService.windowIsBeingDragged = false;
     this.windowService.windowIsBeingResized = false;
-    this.windowService.removeWindow(this.guid);
-    this.ref?.destroy();
+    this.container.classList.add('hidden');
+    setTimeout(() => {
+      this.windowService.removeWindow(this.guid);
+      this.ref?.destroy();
+    }, 120)
+
   }
 
   onMouseMove(event: MouseEvent): void {
@@ -205,6 +210,14 @@ export class WindowComponent implements AfterViewInit {
     this.container.style.setProperty('--xpos', `${this.left}px`);
     this.container.style.setProperty('--ypos', `${this.top}px`);
     this.container.style.transform = `translate(${this.left}px, ${this.top}px)`;
+  }
+
+  public center(): void {
+    this.container.style.left = '50%';
+    this.container.style.top = '50vh';
+    this.setXPos(Math.floor(0 - this.width / 2));
+    this.setYPos(Math.floor(0 - this.height / 2));
+    this.updatePosition();
   }
 
   public get container(): HTMLElement {

@@ -43,6 +43,7 @@ export class ToolbarComponent implements OnInit {
 
   public focusWindow(tab: TabIdModel): void {
     tab.item.reorganizeWindows();
+    tab.item.center();
   }
 }
 
