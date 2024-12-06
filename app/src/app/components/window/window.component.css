@@ -19,6 +19,7 @@ button {
     flex-direction: column;
     transform: translate(var(--xpos), var(--ypos));
     transition: opacity 120ms, transform 30ms, width 60ms, height 60ms;
+    outline: 2px solid black;
 
     .win-bar {
         cursor: pointer;

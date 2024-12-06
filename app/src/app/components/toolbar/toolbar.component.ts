@@ -45,6 +45,10 @@ export class ToolbarComponent implements OnInit {
     tab.item.reorganizeWindows();
     tab.item.center();
   }
+
+  public hasFocus(tab: TabIdModel): boolean {
+    return tab.item.guid === this.windowService.hasFocus().guid;
+  }
 }
 
 export class TabIdModel {

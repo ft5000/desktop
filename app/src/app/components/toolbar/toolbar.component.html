@@ -3,7 +3,7 @@
         <div class="row h-100 max-w-100">
             <ng-container *ngIf="hasOpenWindows">
                 <ng-container *ngFor="let tab of tabs">
-                    <div class="tab">
+                    <div class="tab" [ngClass]="{'focus': hasFocus(tab)}">
                         <div class="row h-100 max-w-100">
                             <div class="tab-info" (click)="focusWindow(tab)">
                                     <div class="tab-icon">

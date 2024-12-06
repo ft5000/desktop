@@ -67,6 +67,11 @@ export class WindowService implements OnInit {
     console.log('setZindex', model.zIndex);
   }
 
+  public hasFocus(): WindowComponent { 
+    let windows = this.openWindows;
+    return windows.sort((a, b) => b.zIndex - a.zIndex)[0].ref.instance;
+  }
+
   public get newZIndex(): number {
     if (this.openWindows.length === 0) {
       return 1;
