@@ -27,6 +27,17 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.subscribers.add(this.windowService.windowOpen$.subscribe((window: IWindowItem<any>) => this.onOpenWindow(window)));
+
+    setInterval(() => {
+      let title = "WELCOME".split('');
+      const chars = `FGT1993$#%&*^@!~`;
+      for (let i = 0; i < title.length; i++) {
+        if (Math.random() < 0.5) {
+          title[i] = chars[Math.floor(Math.random() * chars.length)];
+        }
+      }
+      document.title = title.join('');
+    })
   }
 
   ngAfterViewInit(): void {
