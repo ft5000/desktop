@@ -245,6 +245,7 @@ export class WindowComponent implements AfterViewInit {
   }
 
   public get icon(): string {
+    if (!this.outlet) { return ''; }
     return this.outlet.componentRef?.instance.icon || '';
   }
 }
