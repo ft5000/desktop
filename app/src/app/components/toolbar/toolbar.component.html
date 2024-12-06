@@ -1,4 +1,4 @@
-<div class="toolbar">
+<div class="toolbar" [ngClass]="{'collapse': !hasOpenWindows}">
     <div class="col center h-100">
         <div class="row h-100 max-w-100">
             <ng-container *ngIf="hasOpenWindows">

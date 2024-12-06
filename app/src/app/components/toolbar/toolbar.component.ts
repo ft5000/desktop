@@ -43,12 +43,6 @@ export class ToolbarComponent implements OnInit {
 
   public focusWindow(tab: TabIdModel): void {
     tab.item.reorganizeWindows();
-    this.sortTabs();
-  }
-
-  private sortTabs(): void {
-    this.tabs = this.tabs.sort((a, b) => a.id - b.id);
-    console.log(this.tabs.map(t => ({ id: t.id, guid: t.item.guid })));
   }
 }
 
