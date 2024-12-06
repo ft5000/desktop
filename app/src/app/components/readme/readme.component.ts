@@ -9,6 +9,6 @@ import { WindowContent } from 'src/app/models/WindowContent';
 })
 export class ReadmeComponent extends WindowContent {
   constructor() {
-    super('readme');
+    super('readme', 'pad_icon_1.png');
   }
 }

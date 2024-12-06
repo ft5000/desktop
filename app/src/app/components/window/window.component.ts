@@ -78,10 +78,6 @@ export class WindowComponent implements AfterViewInit {
     if (this.hasClickedWindowBar(target)) {
       this.mdx = event.clientX - this.left;
       this.mdy = event.clientY - this.top;
-
-      this.left = this.container.offsetLeft;
-      this.top = this.container.offsetTop;
-
       this.isDragging = true;
       this.disableWindowInteractions();
       document.addEventListener('mousemove', this.onMouseMove);
@@ -199,11 +195,11 @@ export class WindowComponent implements AfterViewInit {
   }
 
   private setXPos(xpos: number): void {
-    this.left = xpos;
+    this.left = Math.floor(xpos);
   }
 
   private setYPos(ypos: number): void {
-    this.top = ypos;
+    this.top = Math.floor(ypos);
   }
 
   private updatePosition(): void {
@@ -213,8 +209,8 @@ export class WindowComponent implements AfterViewInit {
   }
 
   public center(): void {
-    this.setXPos(Math.floor(0 - this.width / 2));
-    this.setYPos(Math.floor(0 - this.height / 2));
+    this.setXPos(-this.width / 2);
+    this.setYPos(-this.height / 2);
     this.updatePosition();
   }
 
@@ -246,6 +242,10 @@ export class WindowComponent implements AfterViewInit {
         element = element.parentElement; // Move to the next parent
     }
     return false;
-}
+  }
+
+  public get icon(): string {
+    return this.outlet.componentRef?.instance.icon || '';
+  }
 }
 

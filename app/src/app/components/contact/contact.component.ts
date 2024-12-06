@@ -9,7 +9,7 @@ import { WindowContent } from 'src/app/models/WindowContent';
 })
 export class ContactComponent extends WindowContent {
   constructor() {
-    super('Contact');
+    super('Contact', 'contact_icon_2.png');
   }
 
 }

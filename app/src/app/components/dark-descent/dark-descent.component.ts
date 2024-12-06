@@ -9,6 +9,6 @@ import { WindowContent } from 'src/app/models/WindowContent';
 })
 export class DarkDescentComponent extends WindowContent {
   constructor() {
-    super('Dark Descent');
+    super('Dark Descent', 'flop_icon_1.png');
   }
 }

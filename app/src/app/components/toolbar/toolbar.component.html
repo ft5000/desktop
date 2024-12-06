@@ -6,10 +6,10 @@
                     <div class="tab">
                         <div class="row h-100 max-w-100">
                             <div class="tab-info" (click)="focusWindow(tab)">
-                                <div class="col center h-100">
-                                    &nbsp;&nbsp;<span>{{tab.item?.title}}</span>&nbsp;&nbsp;
-                                </div>
-
+                                    <div class="tab-icon">
+                                        <img src="../../../assets/images/{{tab.item.icon}}"/>
+                                    </div>
+                                    <span>{{tab.item?.title}}</span>&nbsp;&nbsp;
                             </div>
                             <div class="tab-controls">
                                 <div class="col center h-100">

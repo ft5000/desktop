@@ -9,6 +9,6 @@ import { WindowContent } from 'src/app/models/WindowContent';
 })
 export class SkullSpinComponent extends WindowContent {
   constructor() {
-    super('Mortis');
+    super('Mortis', 'sketch_icon_1.png');
   }
 }
