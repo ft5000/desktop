@@ -6,8 +6,8 @@ button {
 }
 
 .window-container {
-    left: 0;
-    top: 0;
+    left: 50%;
+    top: 50vh;
     min-width: 128px;
     min-height: 64px;
     width: var(--width);
@@ -18,7 +18,7 @@ button {
     display: flex;
     flex-direction: column;
     transform: translate(var(--xpos), var(--ypos));
-    transition: opacity 120ms, transform 80ms ease, width 60ms, height 60ms;
+    transition: opacity 120ms, transform 30ms, width 60ms, height 60ms;
 
     .win-bar {
         cursor: pointer;

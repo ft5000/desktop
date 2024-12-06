@@ -213,8 +213,6 @@ export class WindowComponent implements AfterViewInit {
   }
 
   public center(): void {
-    this.container.style.left = '50%';
-    this.container.style.top = '50vh';
     this.setXPos(Math.floor(0 - this.width / 2));
     this.setYPos(Math.floor(0 - this.height / 2));
     this.updatePosition();

@@ -7,7 +7,7 @@
     background-color: white;
     bottom: 0;
     left: 0;
-    transition: height 120ms;
+    transition: height 30ms;
 
     .tab {
         margin-right: 4px;
