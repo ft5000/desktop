@@ -8,8 +8,6 @@ button {
 .window-container {
     left: 50%;
     top: 50vh;
-    min-width: 128px;
-    min-height: 64px;
     width: var(--width);
     height: var(--height);
     background-color: black;

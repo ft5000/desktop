@@ -7,6 +7,7 @@ import { DarkDescentComponent } from './components/dark-descent/dark-descent.com
 import { SkullSpinComponent } from './components/skull-spin/skull-spin.component';
 import { ReadmeComponent } from './components/readme/readme.component';
 import { ContactComponent } from './components/contact/contact.component';
+import { EchoJamComponent } from './components/echo-jam/echo-jam.component';
 
 @Component({
   selector: 'app-root',
@@ -47,7 +48,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public openDarkDescent(): void {
-    this.windowService.openWindow(WindowComponent, DarkDescentComponent, 872, 702);
+    this.windowService.openWindow(WindowComponent, DarkDescentComponent, {
+      width: 872,
+      height: 702,
+    });
   }
 
   public openSkull(): void {
@@ -55,11 +59,25 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public openReadme(): void {
-    this.windowService.openWindow(WindowComponent, ReadmeComponent, 545, 326);
+    this.windowService.openWindow(WindowComponent, ReadmeComponent, {
+      width: 545,
+      height: 326,
+    });
   }
 
   public openContact(): void {
-    this.windowService.openWindow(WindowComponent, ContactComponent, 420, 326);
+    this.windowService.openWindow(WindowComponent, ContactComponent, {
+      width: 420,
+      height: 326,
+    });
+  }
+
+  public openEchoJam(): void {
+    this.windowService.openWindow(WindowComponent, EchoJamComponent, {
+      width: 600,
+      height: 400,
+      fitToContent: true
+    });
   }
 
   private onOpenWindow(window: IWindowItem<any>): void {
@@ -74,8 +92,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     let componentRef = this.view.createComponent(window.component)
     componentRef.instance.data = window.data;
     componentRef.instance.ref = componentRef;
-    componentRef.instance.setWidth(window.width);
-    componentRef.instance.setHeight(window.height);
+
+    componentRef.instance.setWidth(window.config?.width);
+    componentRef.instance.setHeight(window.config?.height);
+    componentRef.instance.setFitToContent(window.config?.fitToContent);
+
     this.windowService.addOpenWindow(componentRef);
     this.isRendering = false;
   }

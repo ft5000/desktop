@@ -23,6 +23,7 @@ export class WindowComponent implements AfterViewInit {
   private top: number = 0;
   public width: number = 500;
   public height: number = 600;
+  public fitToContent: boolean = false;
   public isDragging: boolean = false;
   public isResizing: boolean = false;
   public hidden = true;
@@ -66,6 +67,13 @@ export class WindowComponent implements AfterViewInit {
     this.container.style.setProperty('--ypos', `${this.top}px`);
     this.container.style.setProperty('--width', `${this.width}px`);
     this.container.style.setProperty('--height', `${this.height}px`);
+
+    if (this.fitToContent) {
+      this.container.style.minWidth = 'fit-content';
+      this.container.style.minHeight = 'fit-content';
+      this.container.style.maxWidth = 'fit-content';
+      this.container.style.maxHeight = 'fit-content';
+    }
   }
 
   @HostListener('mousedown', ['$event'])
@@ -136,6 +144,10 @@ export class WindowComponent implements AfterViewInit {
   private setHeight(height?: number): void {
     if (!height) { this.height = this.height; return; }
     this.height = height >= 64 ? height : 64;
+  }
+
+  public setFitToContent(value?: number): void {
+    this.fitToContent = value ? true : false;
   }
 
   private updateSize(): void {
@@ -248,5 +260,11 @@ export class WindowComponent implements AfterViewInit {
     if (!this.outlet) { return ''; }
     return this.outlet.componentRef?.instance.icon || '';
   }
+}
+
+export interface IWindowConfig {
+  width?: number;
+  height?: number;
+  fitToContent?: boolean;
 }
 

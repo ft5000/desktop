@@ -1,5 +1,5 @@
 import { ComponentFactoryResolver, ComponentRef, EventEmitter, Injectable, OnInit, Type } from '@angular/core';
-import { WindowComponent } from '../components/window/window.component';
+import { IWindowConfig, WindowComponent } from '../components/window/window.component';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
@@ -23,12 +23,12 @@ export class WindowService implements OnInit {
   ngOnInit(): void {
   }
 
-  public openWindow<T>(component: Type<any>, data: Type<any>, w?: number, h?: number): void {
+  public openWindow<T>(component: Type<any>, data: Type<any>, config?: IWindowConfig): void {
     if (this.openWindows.length >= 12) {
       return;
     }
     console.log('openWindow', this.openWindows.length);
-    this.windowOpen.emit({ component: component, data: data, width: w, height: h });
+    this.windowOpen.emit({ component: component, data: data, config: config });
   }
 
   public addOpenWindow(ref: ComponentRef<WindowComponent>): void {
@@ -93,6 +93,5 @@ export class WindowModel {
 export interface IWindowItem<T> {
   component: Type<any>;
   data: Type<any>
-  width?: number;
-  height?: number;
+  config?: IWindowConfig;
 }
