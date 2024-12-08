@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Howl } from 'howler';
-import { interval } from 'rxjs';
+import { interval, Subscriber } from 'rxjs';
+import { AudioService } from 'src/app/services/audio.service';
 
 @Component({
   selector: 'app-player',
@@ -10,32 +11,33 @@ import { interval } from 'rxjs';
   styleUrl: './player.component.css'
 })
 export class PlayerComponent implements OnInit, OnDestroy {
-  @Input() src: string = '';
   public guid: string = this.generateGuid();
   public sound: Howl | null = null;
   public loading: boolean = false;
-  private seekInterval: any;
   public sliderValue: number = 0;
   public isInteracting: boolean = false;
   private updateInterval: any;
-  
-  constructor() {
 
+  subscriber = new Subscriber();
+
+  
+  
+  constructor(private audioService: AudioService) {
   }
 
   ngOnInit(): void {
-    this.loadAudio();
+    this.subscriber.add(this.audioService.sound$.subscribe((sound: Howl | null) =>  this.sound = sound));
+    this.subscriber.add(this.audioService.loading$.subscribe((value: boolean) => this.loading = value));
     this.updateThumbPos()
   }
 
   ngOnDestroy(): void {
-    clearInterval(this.seekInterval);
     clearInterval(this.updateInterval);
   }
 
   public updateThumbPos(): void {
     this.updateInterval = setInterval(() => {
-      document.getElementById(this.guid)?.style.setProperty('--thumbPos', `${this.calculateThumbPos(this.pos)}%`);
+      document.getElementById(this.guid)?.style.setProperty('--thumbPos', `${this.calculateThumbPos(this.pos + 1)}%`);
     }, 10)
   }
 
@@ -43,34 +45,21 @@ export class PlayerComponent implements OnInit, OnDestroy {
     return Math.trunc(pos / this.audioMaxValue * 100);
   }
 
-  private loadAudio() {
-    this.loading = true;
-
-    this.sound = new Howl({
-      src: `../../assets/audio/${this.src}`,
-    });
-
-    this.sound.on('load', () => {
-      this.loading = false;
-    });
-  }
-
   public play(): void {
     if (this.sound) {
-      this.sound.play();
+      this.audioService.play();
     }
   }
 
   public pause(): void {
     if (this.sound) {
-      this.sound.pause();
-      clearInterval(this.seekInterval);
+      this.audioService.pause();
     }
   }
 
   public stop(): void {
     if (this.sound) {
-      this.sound.stop();
+      this.audioService.stop();
     }
   }
 
@@ -105,7 +94,7 @@ export class PlayerComponent implements OnInit, OnDestroy {
   }
 
   public get audioMaxValue(): number {
-    return this.sound ? Math.trunc(this.sound.duration()) : 100;
+    return this.sound ? Math.trunc(this.sound.duration()) + 1 : 100;
   }
 
   public get playing(): boolean {

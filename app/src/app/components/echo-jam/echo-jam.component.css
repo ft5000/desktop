@@ -4,6 +4,6 @@
     max-width: 480px;
     max-height: 560px;
     padding: 8px;
-    background-color: white;
-    border: 2px solid black;
+    background-color: black;
+    /* border: 2px solid black; */
 }

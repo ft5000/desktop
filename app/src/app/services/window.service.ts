@@ -17,7 +17,7 @@ export class WindowService implements OnInit {
 
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { 
-    console.log('Singleton Service Initialized');
+    console.log('WindowService Initialized');
   }
 
   ngOnInit(): void {

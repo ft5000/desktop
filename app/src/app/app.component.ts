@@ -8,6 +8,7 @@ import { SkullSpinComponent } from './components/skull-spin/skull-spin.component
 import { ReadmeComponent } from './components/readme/readme.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { EchoJamComponent } from './components/echo-jam/echo-jam.component';
+import { AudioService } from './services/audio.service';
 
 @Component({
   selector: 'app-root',
@@ -22,7 +23,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   private subscribers = new Subscriber();
   private isRendering = false;
   
-  constructor(private windowService: WindowService) {
+  constructor(private windowService: WindowService, private audioService: AudioService) {
 
   }
 
