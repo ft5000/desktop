@@ -1,5 +1,37 @@
+
+
 <div class="echo-container">
-    <app-player></app-player>
+    <img src="../../../assets/images/echo_skin_2.png">
+
+    <div class="echo-track">
+        <app-player [showControls]="false"></app-player>
+    </div>
+
+    <div class="row w-100 playback-controls">
+        <button id="stop-button" (click)="previous()">
+            prev
+        </button>
+        <button id="play-button" (click)="play()">
+            play
+        </button>
+        <button id="pause-button" (click)="pause()">
+            pause
+        </button>
+        <button id="stop-button" (click)="stop()">
+            stop
+        </button>
+        <button id="stop-button" (click)="next()">
+            next
+        </button>
+    </div>
+
+    <div class="echo-list">
+        <ng-container *ngFor="let track of playlist; let i = index">
+            <div class="row list-item" (click)="select(track)">
+                <span>{{i}}.&nbsp;{{track}}</span>
+            </div>
+        </ng-container>
+    </div>
 </div>
 
 

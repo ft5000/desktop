@@ -11,6 +11,7 @@ import { AudioService } from 'src/app/services/audio.service';
   styleUrl: './player.component.css'
 })
 export class PlayerComponent implements OnInit, OnDestroy {
+  @Input() showControls: boolean = true;
   public guid: string = this.generateGuid();
   public sound: Howl | null = null;
   public loading: boolean = false;

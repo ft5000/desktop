@@ -1,9 +1,97 @@
 .echo-container {
-    min-width: 480px;
-    min-height: 560px;
-    max-width: 480px;
-    max-height: 560px;
-    padding: 8px;
+    -webkit-font-smoothing: none; /* Disables antialiasing in WebKit browsers */
+    -moz-osx-font-smoothing: grayscale; /* For macOS in Firefox */
+    text-rendering: optimizeLegibility; /* Hint the browser to optimize for readability */
+
+    min-width: 448px;
+    min-height: 512px;
+    max-width: 448px;
+    max-height: 512px;
     background-color: black;
-    /* border: 2px solid black; */
+    font-family: "VT323";
+    border: 2px solid black;
+    user-select: none;
+    overflow: hidden;
+
+    .echo-track {
+        position: absolute;
+        top: 130px;
+        left: 70px;
+        width: 320px;
+        height: 24px;
+    }
+
+    .playback-controls {
+        position: absolute;
+        top: 170px;
+        left: 76px;
+        width: 310px;
+        height: 50px;
+
+        button {
+            all: unset;
+            cursor: pointer;
+            background-color: white;
+            color: black;
+            margin-right: 2px;
+            padding: 4px;
+            flex: 1;
+            text-align: center;
+        }
+        
+        button:hover {
+            text-decoration: underline;
+        }
+    }
+
+    .echo-list {
+        position: absolute;
+        top: 258px;
+        left: 70px;
+        width: 288px;
+        height: 192px;
+        overflow-y: auto;
+        color: white;
+        font-size: 16px;
+        border-bottom: 2px solid black;
+
+        .list-item {
+            cursor: pointer;
+            padding: 4px;
+            border-bottom: 2px solid white;
+        }
+
+        .list-item:last-child {
+            border-bottom: none;
+        }
+
+        .list-item:hover {
+            background-color: white;
+            color: black;
+        }
+    }
+
+    .echo-list::-webkit-scrollbar {
+        width: 4px;  /* Width of vertical scrollbar */
+        height: 4px; /* Height of horizontal scrollbar */
+    }
+    
+    /* The track (part the scrollbar moves along) */
+    .echo-list::-webkit-scrollbar-track {
+        background: black;  /* Light gray track */
+        /* border-left: 2px dashed white; */
+    }
+    
+    /* The handle (the draggable part of the scrollbar) */
+    .echo-list::-webkit-scrollbar-thumb {
+        background: white;  /* Darker gray thumb */
+        border: 2px solid black;
+        border-left: none;
+    }
+    
+    /* When the handle is hovered */
+    .echo-list::-webkit-scrollbar-thumb:hover {
+        background: white;  /* Darker on hover */
+        cursor: grab;
+    }
 }

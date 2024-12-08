@@ -23,6 +23,10 @@ export class AudioService {
     this.listPos = 0;
     this._playlist = value;
   }
+
+  public get playlist(): string[] {
+    return this._playlist;
+  }
     
   public loadSound(): void {
     this.loading.next(true);
@@ -44,16 +48,18 @@ export class AudioService {
   }
 
   public nextListPos(): void {
-    this.listPos = this.listPos + 1 < this._playlist.length ? this.listPos + 1 : 0;
+    this.listPos = this.listPos + 1 < this._playlist.length ? this.listPos + 1 : this.listPos;
   }
 
-  
+  public previousListPos(): void {
+    this.listPos = this.listPos - 1 >= 0 ? this.listPos - 1 : 0;
+  }
+
   public play(): void {
-    if (this.sound) {
+    if (this.sound && !this.isPlaying) {
       this.sound.play();
     }
   }
-
 
   public pause(): void {
     if (this.sound) {
@@ -67,4 +73,34 @@ export class AudioService {
     }
   }
 
+  public previous(): void {
+    if (this.sound) {
+      this.stop();
+      this.previousListPos();
+      this.loadSound();
+      this.play();
+    }
+  }
+
+  public next(): void {
+    if (this.sound) {
+      this.stop();
+      this.nextListPos();
+      this.loadSound();
+      this.play();
+    }
+  }
+
+  public select(name: string): void {
+    if (this.sound) {
+      this.stop();
+      this.listPos = this._playlist.findIndex(x => x === name);
+      this.loadSound();
+      this.play();
+    }
+  }
+
+  public get isPlaying(): boolean {
+    return this.sound ? this.sound.playing() : false;
+  }
 }

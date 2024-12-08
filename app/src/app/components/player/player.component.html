@@ -1,5 +1,5 @@
 <div class="row">
-    <button class="player-button" style="margin-right: 8px;" (click)="onClick()">
+    <button *ngIf="showControls" class="player-button" style="margin-right: 8px;" (click)="onClick()">
         <span *ngIf="!playing" style="width: fit-content;">▶</span>
         <span *ngIf="playing" style="width: fit-content;">■</span>
     </button>

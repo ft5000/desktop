@@ -50,6 +50,10 @@ body {
     justify-content: center;
 }
 
+.space {
+    justify-content: space-between;
+}
+
 a {
     color: white;  
 }
