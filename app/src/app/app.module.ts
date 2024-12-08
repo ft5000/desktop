@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { WindowComponent } from './components/window/window.component';
 import { IconComponent } from './components/icon/icon.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
+import { PlayerComponent } from './components/player/player.component';
 
 
 
@@ -15,12 +16,14 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
     WindowComponent,
     IconComponent,
     ToolbarComponent,
+    PlayerComponent,
   ],
   exports: [
     CommonModule,
     WindowComponent,
     IconComponent,
     ToolbarComponent,
+    PlayerComponent,
   ],
   bootstrap: [AppComponent]
 })

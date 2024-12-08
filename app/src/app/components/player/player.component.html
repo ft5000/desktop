@@ -1,0 +1,18 @@
+<div class="row">
+    <button class="player-button" style="margin-right: 8px;" (click)="onClick()">
+        <span *ngIf="!playing" style="width: fit-content;">▶</span>
+        <span *ngIf="playing" style="width: fit-content;">■</span>
+    </button>
+    <input 
+        [id]="guid"
+        class="slider" 
+        type="range" 
+        min="0"
+        [max]="audioMaxValue" 
+        [value]="isInteracting ? sliderValue : pos" 
+        (input)="onSliderInput($event)" 
+        (change)="onSliderChange($event)"
+        (mousedown)="startInteraction()"
+        (mouseup)="endInteraction()">
+</div>
+

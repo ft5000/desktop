@@ -1,0 +1,30 @@
+.player-button{
+    all: unset;
+    display: inline-block;
+    color: white;
+    user-select: none;
+    cursor: pointer;
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+}
+
+
+
+.slider {
+    -webkit-appearance: none;
+    width: 256px;
+    height: 16px;
+    /* background: url('../../../assets/images/dith_1.png'); */
+    background: linear-gradient(to right, white 0%, white var(--thumbPos), black var(--thumbPos), black 100%);
+    outline: 2px solid white;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 8px;
+    height: 16px;
+    background: white;
+    cursor: pointer;
+}
