@@ -1,4 +1,4 @@
-import { Injectable, OnInit } from '@angular/core';
+import { EventEmitter, Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject, ReplaySubject } from 'rxjs';
 import { Howl } from 'howler';
 
@@ -14,6 +14,9 @@ export class AudioService {
 
   private loading: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
   public loading$ = this.loading.asObservable();
+
+  private onPlay: EventEmitter<void> = new EventEmitter<void>();
+  public onPlay$ = this.onPlay.asObservable();
 
   constructor() { 
     console.log('AudioService Initialized');
@@ -60,6 +63,9 @@ export class AudioService {
       this.sound.play();
       this.sound.on('end', () => {
         this.next();
+      });
+      this.sound.on('play', () => {
+        this.onPlay.emit();
       });
     }
   }

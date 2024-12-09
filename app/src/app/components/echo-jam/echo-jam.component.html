@@ -3,6 +3,10 @@
 <div class="echo-container">
     <img src="../../../assets/images/echo/skins/mono_dark/echo_bg.png">
 
+    <div class="echo-gfx">
+        <canvas id="gfx" width="100%" height="100%"></canvas>
+    </div>
+
     <div class="echo-info col center">
         <span *ngIf="selected && isPlaying">&nbsp;Now Playing: {{selectedTitle}}</span>
     </div>

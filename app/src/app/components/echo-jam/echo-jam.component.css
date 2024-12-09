@@ -13,10 +13,22 @@
     user-select: none;
     overflow: hidden;
 
-    filter: sepia(1);
-
     img {
         pointer-events: none;
+    }
+
+    .echo-gfx {
+        position: absolute;
+        top: 132px;
+        left: 72px;
+        width: 248px;
+        height: 136px;
+        background-color: black;
+
+        canvas {
+            width: 100%;
+            height: 100%;
+        }
     }
 
     .echo-info {
@@ -33,6 +45,7 @@
             text-wrap: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            color: lime;
         }
     }
 
@@ -74,13 +87,15 @@
         width: 248px;
         height: 376px;;
         overflow-y: auto;
-        color: black;
+        background-color: black;
+        color: lime;
         font-size: 18px;
 
         .list-item {
             cursor: pointer;
-            padding: 4px;
-            border-bottom: 2px solid black;
+            padding: 0 4px;
+            height: 24px;
+            /* border-bottom: 2px solid black; */
         }
 
         .list-item:last-child {
@@ -88,7 +103,10 @@
         }
 
         .list-item:hover {
-            text-decoration: underline;
+            /* text-decoration: underline;
+            border-bottom: 1px solid lime; */
+            background-color: lime;
+            color: black
         }
 
         .list-item.active {
