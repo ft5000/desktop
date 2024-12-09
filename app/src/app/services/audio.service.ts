@@ -58,6 +58,9 @@ export class AudioService {
   public play(): void {
     if (this.sound && !this.isPlaying) {
       this.sound.play();
+      this.sound.on('end', () => {
+        this.next();
+      });
     }
   }
 
