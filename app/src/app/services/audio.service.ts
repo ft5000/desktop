@@ -103,6 +103,10 @@ export class AudioService {
     }
   }
 
+  public get selected(): string {
+    return this._playlist[this.listPos];
+  }
+
   public get isPlaying(): boolean {
     return this.sound ? this.sound.playing() : false;
   }

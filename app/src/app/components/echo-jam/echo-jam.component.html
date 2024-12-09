@@ -3,6 +3,10 @@
 <div class="echo-container">
     <img src="../../../assets/images/echo/skins/mono_dark/echo_bg.png">
 
+    <div class="echo-info col center">
+        <span *ngIf="selected && isPlaying">&nbsp;Now Playing: {{selectedTitle}}</span>
+    </div>
+
     <div class="echo-track">
         <app-player [showControls]="false"></app-player>
     </div>
@@ -27,7 +31,7 @@
 
     <div class="echo-list">
         <ng-container *ngFor="let track of playlist; let i = index">
-            <div class="row list-item" (click)="select(track)">
+            <div class="row list-item" [ngClass]="{'active': selected === track}" (click)="select(track)">
                 <span>{{i}}.&nbsp;{{track}}</span>
             </div>
         </ng-container>

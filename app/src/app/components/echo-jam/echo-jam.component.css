@@ -1,7 +1,7 @@
 .echo-container {
-    -webkit-font-smoothing: none; /* Disables antialiasing in WebKit browsers */
-    -moz-osx-font-smoothing: grayscale; /* For macOS in Firefox */
-    text-rendering: optimizeLegibility; /* Hint the browser to optimize for readability */
+    -webkit-font-smoothing: none;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
     image-rendering: pixelated;
 
     min-width: 704px;
@@ -13,11 +13,34 @@
     user-select: none;
     overflow: hidden;
 
+    filter: sepia(1);
+
+    img {
+        pointer-events: none;
+    }
+
+    .echo-info {
+        position: absolute;
+        top: 292px;
+        left: 72px;
+        width: 248px;
+        height: 24px;
+        font-size: 18px;
+        background-color: black;
+        
+        span {
+            width: 100%;
+            text-wrap: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
     .echo-track {
         position: absolute;
         top: 338px;
         left: 70px;
-        width: 244px;
+        width: 252px;
         height: 20px;
     }
 
@@ -65,14 +88,17 @@
         }
 
         .list-item:hover {
-            filter: invert(1);
-            /* background-color: black;
-            color: transparent; */
+            text-decoration: underline;
+        }
+
+        .list-item.active {
+            background-color: black;
+            color: white;
         }
     }
 
     .echo-list::-webkit-scrollbar {
-        width: 4px;  /* Width of vertical scrollbar */
+        width: 8px;  /* Width of vertical scrollbar */
         height: 4px; /* Height of horizontal scrollbar */
     }
     
@@ -85,8 +111,8 @@
     /* The handle (the draggable part of the scrollbar) */
     .echo-list::-webkit-scrollbar-thumb {
         background: white;  /* Darker gray thumb */
-        border: 2px solid black;
-        border-left: none;
+        /* border-right: 2px solid black; */
+        border-left: 2px solid black;
     }
     
     /* When the handle is hovered */
