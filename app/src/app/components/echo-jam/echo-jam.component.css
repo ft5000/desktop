@@ -2,6 +2,7 @@
     -webkit-font-smoothing: none; /* Disables antialiasing in WebKit browsers */
     -moz-osx-font-smoothing: grayscale; /* For macOS in Firefox */
     text-rendering: optimizeLegibility; /* Hint the browser to optimize for readability */
+    image-rendering: pixelated;
 
     min-width: 704px;
     min-height: 448px;
@@ -31,12 +32,15 @@
         button {
             all: unset;
             cursor: pointer;
-
+            transition: opacity 120ms;
             margin-right: 2px;
+            width: 38px;
+            height: 38px;
+            image-rendering: pixelated;
         }
         
         button:hover {
-            opacity: 0.5;
+            opacity: 0.3;
         }
     }
 
