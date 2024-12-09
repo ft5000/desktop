@@ -3,62 +3,57 @@
     -moz-osx-font-smoothing: grayscale; /* For macOS in Firefox */
     text-rendering: optimizeLegibility; /* Hint the browser to optimize for readability */
 
-    min-width: 448px;
-    min-height: 512px;
-    max-width: 448px;
-    max-height: 512px;
+    min-width: 704px;
+    min-height: 448px;
+    max-width: 704px;
+    max-height: 448px;
     background-color: black;
     font-family: "VT323";
-    border: 2px solid black;
     user-select: none;
     overflow: hidden;
 
     .echo-track {
         position: absolute;
-        top: 130px;
-        left: 70px;
-        width: 320px;
-        height: 24px;
+        top: 291px;
+        left: 72px;
+        width: 248px;
+        height: 17px;
     }
 
     .playback-controls {
         position: absolute;
-        top: 170px;
-        left: 76px;
-        width: 310px;
-        height: 50px;
+        top: 388px;
+        left: 96px;
+        width: 198px;
+        height: 38px;
+        background-color: black;
 
         button {
             all: unset;
             cursor: pointer;
-            background-color: white;
-            color: black;
+
             margin-right: 2px;
-            padding: 4px;
-            flex: 1;
-            text-align: center;
         }
         
         button:hover {
-            text-decoration: underline;
+            opacity: 0.5;
         }
     }
 
     .echo-list {
         position: absolute;
-        top: 258px;
-        left: 70px;
-        width: 288px;
-        height: 192px;
+        top: 68px;
+        left: 392px;
+        width: 248px;
+        height: 376px;;
         overflow-y: auto;
-        color: white;
+        color: black;
         font-size: 16px;
-        border-bottom: 2px solid black;
 
         .list-item {
             cursor: pointer;
             padding: 4px;
-            border-bottom: 2px solid white;
+            border-bottom: 2px solid black;
         }
 
         .list-item:last-child {
@@ -66,8 +61,9 @@
         }
 
         .list-item:hover {
-            background-color: white;
-            color: black;
+            filter: invert(1);
+            /* background-color: black;
+            color: transparent; */
         }
     }
 

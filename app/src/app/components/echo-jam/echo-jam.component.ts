@@ -23,7 +23,7 @@ export class EchoJamComponent extends WindowContent implements OnInit {
     'passage.mp3',
   ];
   constructor(private audioService: AudioService) {
-    super('Echo Jam', 'echo_icon_1.png');
+    super('EchoJam', 'echo_icon_1.png');
   }
   ngOnInit(): void {
     this.audioService.playlist = this.audioFiles;
