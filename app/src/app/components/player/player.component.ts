@@ -8,7 +8,7 @@ import { AudioService } from 'src/app/services/audio.service';
   selector: 'app-player',
   imports: [CommonModule],
   templateUrl: './player.component.html',
-  styleUrl: './player.component.css'
+  styleUrl: './player.component.css',
 })
 export class PlayerComponent implements OnInit, OnDestroy {
   @Input() showControls: boolean = true;

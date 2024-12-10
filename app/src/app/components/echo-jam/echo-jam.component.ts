@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscriber } from 'rxjs';
 import { AppModule } from 'src/app/app.module';
 import { WindowContent } from 'src/app/models/WindowContent';
@@ -8,7 +8,8 @@ import { AudioService } from 'src/app/services/audio.service';
   selector: 'app-echo-jam',
   imports: [ AppModule ],
   templateUrl: './echo-jam.component.html',
-  styleUrl: './echo-jam.component.css'
+  styleUrl: './echo-jam.component.css',
+  encapsulation: ViewEncapsulation.None,
 })
 export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy {
   private audioFiles: string[] = [
@@ -19,6 +20,13 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
     'town.mp3',
     'no.mp3',
   ];
+
+  public themes: string[] = [
+    'mono_dark',
+    'blood',
+  ];
+
+  public theme: string = 'mono-dark';
 
   private textPos: number = 0;
   private updateTitle: any;
@@ -44,6 +52,8 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
   ngOnInit(): void {
     this.audioService.playlist = this.audioFiles;
     this.audioService.loadSound();
+
+    this.setBloodTheme();
 
     this.updateTitle = setInterval(() => {
       if (this.textPos == 0) {
@@ -138,15 +148,17 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
     let barHeight;
     let x = 0;
 
+    const echo = document.querySelector('.echo-container') as HTMLElement;
+
     for (let i = 0; i < this.dataArray.length && x < this.canvas.width; i++) {
       barHeight = roundToEven(this.dataArray[i] * 0.3);
 
       this.ctx.restore();
-      this.ctx.fillStyle = 'lime';
+      this.ctx.fillStyle = echo.style.getPropertyValue('--primary1');
       this.ctx.fillRect(x, roundToEven(this.canvas.height - barHeight) + 2, barWidth, barHeight);
 
       this.ctx.restore();
-      this.ctx.fillStyle = 'lime';
+      this.ctx.fillStyle = echo.style.getPropertyValue('--primary1');
       this.ctx.fillRect(x, roundToEven(this.canvas.height - barHeight) - 2, barWidth, 2);
 
       x += barWidth;
@@ -155,6 +167,36 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
     function roundToEven(num: number): number {
       let rounded = Math.round(num);
       return rounded % 2 === 0 ? rounded : rounded + 1;
+    }
+  }
+
+  public changeTheme(): void {
+    if (this.theme === 'mono_dark') {
+      this.setBloodTheme();
+    } else {
+      this.setMonoDarkTheme();
+    }
+  }
+
+  public setBloodTheme(): void {
+    this.theme = 'blood';
+    const echo = document.querySelector('.echo-container') as HTMLElement;
+    if (echo) {
+      echo.style.setProperty('--primary1', 'white');
+      echo.style.setProperty('--primary2', 'red');
+      echo.style.setProperty('--secondary', 'blue');
+      echo.style.setProperty('--slider', "url('../../../assets/images/echo/skins/blood/vol_slide.png')");
+    }
+  }
+
+  public setMonoDarkTheme(): void {
+    this.theme = 'mono_dark';
+    const echo = document.querySelector('.echo-container') as HTMLElement;
+    if (echo) {
+      echo.style.setProperty('--primary1', 'lime');
+      echo.style.setProperty('--primary2', 'white');
+      echo.style.setProperty('--secondary', 'black');
+      echo.style.setProperty('--slider', "url('../../../assets/images/echo/skins/mono_dark/vol_slide.png')");
     }
   }
 }
