@@ -85,14 +85,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   private onOpenWindow(window: IWindowItem<any>): void {
-    console.log('render', window)
     this.renderWindow(window);
   }
 
   private renderWindow(window: IWindowItem<any>): void {
     if (this.isRendering) return;
     this.isRendering = true;
-    console.log('renderWindow', window);
+    
     let componentRef = this.view.createComponent(window.component)
     componentRef.instance.data = window.data;
     componentRef.instance.ref = componentRef;

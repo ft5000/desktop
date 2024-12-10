@@ -11,10 +11,13 @@
     background-color: black;
     font-family: "VT323";
     user-select: none;
+    -webkit-user-drag: none;
     overflow: hidden;
 
     img {
         pointer-events: none;
+        user-select: none;
+        -webkit-user-drag: none;
     }
 
     .echo-gfx {
@@ -95,7 +98,6 @@
             cursor: pointer;
             padding: 0 4px;
             height: 24px;
-            /* border-bottom: 2px solid black; */
         }
 
         .list-item:last-child {
@@ -103,8 +105,6 @@
         }
 
         .list-item:hover {
-            /* text-decoration: underline;
-            border-bottom: 1px solid lime; */
             background-color: lime;
             color: black
         }
@@ -116,26 +116,47 @@
     }
 
     .echo-list::-webkit-scrollbar {
-        width: 8px;  /* Width of vertical scrollbar */
-        height: 4px; /* Height of horizontal scrollbar */
+        width: 8px;
+        height: 4px;
     }
     
-    /* The track (part the scrollbar moves along) */
     .echo-list::-webkit-scrollbar-track {
-        background: black;  /* Light gray track */
-        /* border-left: 2px dashed white; */
+        background: black;
     }
     
-    /* The handle (the draggable part of the scrollbar) */
     .echo-list::-webkit-scrollbar-thumb {
-        background: white;  /* Darker gray thumb */
-        /* border-right: 2px solid black; */
+        background: white;
         border-left: 2px solid black;
     }
     
-    /* When the handle is hovered */
     .echo-list::-webkit-scrollbar-thumb:hover {
-        background: white;  /* Darker on hover */
+        background: white;
         cursor: grab;
+    }
+
+    .volume-slider {
+        -webkit-appearance: none;
+        background-color: transparent;
+        width: 320px;
+        height: 8px;
+        position: absolute;
+        left: 198px;
+        top: 282px;
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+    }
+  
+    .volume-slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        background-image: url('../../../assets/images/echo/skins/mono_dark/vol_slide.png');
+        width: 24px;
+        height: 8px;
+        cursor: pointer;
+        transform: rotate(90deg);
+        transform-origin: 50% 50%;
+    }
+
+    .volume-slider:focus-visible {
+        outline: none;
     }
 }

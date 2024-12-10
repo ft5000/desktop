@@ -12,23 +12,12 @@ import { AudioService } from 'src/app/services/audio.service';
 })
 export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy {
   private audioFiles: string[] = [
-    'slopped_not_chopped_8.mp3',
-    'save.mp3',
-    'natural.mp3',
-    'atrium.mp3',
-    'lakes.mp3',
+    'cycle.mp3',
     'marine.mp3',
-    'memory.mp3',
-    'pavane.mp3',
-    'open.mp3',
-    'passage.mp3',
-    'forest.mp3',
-    'green.mp3',
-    'heart.mp3',
-    'inside.mp3',
-    'island.mp3',
-    'joy.mp3',
-    'keep_on_walking.mp3',
+    'tram.mp3',
+    'complex.mp3',
+    'town.mp3',
+    'no.mp3',
   ];
 
   private textPos: number = 0;
@@ -49,6 +38,7 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
   ngOnDestroy(): void {
     clearInterval(this.updateTitle);
     clearInterval(this.drawInterval);
+    this.audioService.stop();
   }
 
   ngOnInit(): void {
@@ -68,6 +58,8 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
     this.drawInterval = setInterval(() => {
       this.draw();
     }, 60)
+
+    this.draw();
   }
 
   private initGfx(): void {
@@ -101,12 +93,22 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
     this.textPos = 0;
     this.audioService.select(name);
   }
+  public changeVolume(event: any): void {
+    this.audioService.volume = (event.target.value / 100);
+  }
+
+  public get volume(): number {
+    return this.audioService.currentVolume * 100;
+  }
+
   public get selected(): string {
     return this.audioService.selected;
   }
+
   public get playlist(): string[] {
     return this.audioService.playlist;
   }
+
   public get isPlaying(): boolean {
     return this.audioService.isPlaying;
   }
@@ -132,42 +134,27 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
     this.ctx.clearRect(0, 0, this.canvas?.width, this.canvas?.height);
     this.analyser.getByteFrequencyData(this.dataArray);
 
-    // Draw the bars
-    // const barWidth = (this.canvas.width / this.dataArray.length) * 2;
-    const barWidth = 3;
+    const barWidth = Math.floor(this.canvas.width / 20);
     let barHeight;
-    let blueBarHeight,
-        greenBarHeight,
-        redBarHeight;
     let x = 0;
 
     for (let i = 0; i < this.dataArray.length && x < this.canvas.width; i++) {
-        barHeight = Math.trunc(this.dataArray[i] * 0.65);
-        blueBarHeight = Math.floor(barHeight / 3);
-        greenBarHeight = Math.floor((barHeight / 3) * 2);
-        redBarHeight = Math.floor(barHeight);
+      barHeight = roundToEven(this.dataArray[i] * 0.3);
 
-        this.ctx.restore();
-        this.ctx.fillStyle = 'lime';
-        this.ctx.fillRect(x, Math.trunc(this.canvas.height - barHeight / 2) + 2, barWidth, Math.trunc(barHeight / 2));
+      this.ctx.restore();
+      this.ctx.fillStyle = 'lime';
+      this.ctx.fillRect(x, roundToEven(this.canvas.height - barHeight) + 2, barWidth, barHeight);
 
-        // this.ctx.restore();
-        // this.ctx.fillStyle = 'lime';
-        // this.ctx.fillRect(x, Math.floor(this.canvas.height - blueBarHeight / 2), barWidth, Math.ceil(blueBarHeight / 2));
-        
-        // this.ctx.restore();
-        // this.ctx.fillStyle = 'yellow';
-        // this.ctx.fillRect(x, Math.floor(this.canvas.height - greenBarHeight / 2), barWidth, Math.ceil((greenBarHeight / 2) - (blueBarHeight / 2)));
+      this.ctx.restore();
+      this.ctx.fillStyle = 'lime';
+      this.ctx.fillRect(x, roundToEven(this.canvas.height - barHeight) - 2, barWidth, 2);
 
-        // this.ctx.restore();
-        // this.ctx.fillStyle = 'red';
-        // this.ctx.fillRect(x, Math.floor(this.canvas.height - redBarHeight / 2), barWidth, Math.ceil((redBarHeight / 2) - (greenBarHeight / 2)));
+      x += barWidth;
+    }
 
-        this.ctx.restore();
-        this.ctx.fillStyle = 'white';
-        this.ctx.fillRect(x, Math.trunc(this.canvas.height - barHeight / 2) - 2, barWidth, 2);
-
-        x += barWidth + 1; // Spacing between bars
+    function roundToEven(num: number): number {
+      let rounded = Math.round(num);
+      return rounded % 2 === 0 ? rounded : rounded + 1;
     }
   }
 }

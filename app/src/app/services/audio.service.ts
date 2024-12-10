@@ -18,8 +18,9 @@ export class AudioService {
   private onPlay: EventEmitter<void> = new EventEmitter<void>();
   public onPlay$ = this.onPlay.asObservable();
 
+  public currentVolume: number = 0.75;
+
   constructor() { 
-    console.log('AudioService Initialized');
   }
 
   public set playlist(value: string[]) {
@@ -61,6 +62,7 @@ export class AudioService {
   public play(): void {
     if (this.sound && !this.isPlaying) {
       this.sound.play();
+      this.sound.volume(this.currentVolume);
       this.sound.on('end', () => {
         this.next();
       });
@@ -106,6 +108,13 @@ export class AudioService {
       this.listPos = this._playlist.findIndex(x => x === name);
       this.loadSound();
       this.play();
+    }
+  }
+
+  public set volume(value: number) {
+    if (this.sound) {
+      this.currentVolume = value;
+      this.sound.volume(this.currentVolume);
     }
   }
 

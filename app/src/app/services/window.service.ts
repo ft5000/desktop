@@ -17,7 +17,7 @@ export class WindowService implements OnInit {
 
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver) { 
-    console.log('WindowService Initialized');
+
   }
 
   ngOnInit(): void {
@@ -27,7 +27,6 @@ export class WindowService implements OnInit {
     if (this.openWindows.length >= 12) {
       return;
     }
-    console.log('openWindow', this.openWindows.length);
     this.windowOpen.emit({ component: component, data: data, config: config });
   }
 
@@ -52,9 +51,7 @@ export class WindowService implements OnInit {
   }
 
   public removeWindow(guid: string): void {
-    console.log('removeWindow', guid);
     this.openWindows = this.openWindows.filter((w: WindowModel) => { return w.ref.instance.guid != guid });
-    console.log(this._openWindows);
   }
 
   public setZindex(ref: ComponentRef<WindowComponent>): void {
@@ -64,7 +61,6 @@ export class WindowService implements OnInit {
     }
     model.zIndex = this.newZIndex
     model.ref?.instance.setZIndex(model.zIndex)
-    console.log('setZindex', model.zIndex);
   }
 
   public hasFocus(): WindowComponent { 
@@ -77,7 +73,6 @@ export class WindowService implements OnInit {
       return 1;
     }
     var sorted = this.openWindows.map((w: WindowModel) => w.zIndex).sort((a, b) => a - b);
-    console.log(sorted)
     return sorted[sorted.length - 1] + 1;
   }
 
