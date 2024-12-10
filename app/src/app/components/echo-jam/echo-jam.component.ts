@@ -76,11 +76,9 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
 
     const audioContext = Howler.ctx;
     this.analyser = new AnalyserNode(audioContext);
-    this.analyser.fftSize = 64; // Size of the Fast Fourier Transform (adjust as needed)
+    this.analyser.fftSize = 256; // Size of the Fast Fourier Transform (adjust as needed)
     this.dataArray = new Uint8Array(this.analyser.frequencyBinCount);
     Howler.masterGain.connect(this.analyser);
-
-    console.log(this.canvas, this.ctx, this.analyser);
   }
   public previous(): void {
     this.textPos = 0;
@@ -138,14 +136,36 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
     // const barWidth = (this.canvas.width / this.dataArray.length) * 2;
     const barWidth = 3;
     let barHeight;
+    let blueBarHeight,
+        greenBarHeight,
+        redBarHeight;
     let x = 0;
 
-    for (let i = 0; i < this.dataArray.length; i++) {
-        barHeight = Math.floor(this.dataArray[i] * 0.65);
+    for (let i = 0; i < this.dataArray.length && x < this.canvas.width; i++) {
+        barHeight = Math.trunc(this.dataArray[i] * 0.65);
+        blueBarHeight = Math.floor(barHeight / 3);
+        greenBarHeight = Math.floor((barHeight / 3) * 2);
+        redBarHeight = Math.floor(barHeight);
 
-        // this.ctx.fillStyle = `rgb(${barHeight + 100}, 50, 150)`;
+        this.ctx.restore();
         this.ctx.fillStyle = 'lime';
-        this.ctx.fillRect(x, Math.floor(this.canvas.height - barHeight / 2), barWidth, Math.ceil(barHeight / 2));
+        this.ctx.fillRect(x, Math.trunc(this.canvas.height - barHeight / 2) + 2, barWidth, Math.trunc(barHeight / 2));
+
+        // this.ctx.restore();
+        // this.ctx.fillStyle = 'lime';
+        // this.ctx.fillRect(x, Math.floor(this.canvas.height - blueBarHeight / 2), barWidth, Math.ceil(blueBarHeight / 2));
+        
+        // this.ctx.restore();
+        // this.ctx.fillStyle = 'yellow';
+        // this.ctx.fillRect(x, Math.floor(this.canvas.height - greenBarHeight / 2), barWidth, Math.ceil((greenBarHeight / 2) - (blueBarHeight / 2)));
+
+        // this.ctx.restore();
+        // this.ctx.fillStyle = 'red';
+        // this.ctx.fillRect(x, Math.floor(this.canvas.height - redBarHeight / 2), barWidth, Math.ceil((redBarHeight / 2) - (greenBarHeight / 2)));
+
+        this.ctx.restore();
+        this.ctx.fillStyle = 'white';
+        this.ctx.fillRect(x, Math.trunc(this.canvas.height - barHeight / 2) - 2, barWidth, 2);
 
         x += barWidth + 1; // Spacing between bars
     }

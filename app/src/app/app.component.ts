@@ -74,6 +74,9 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   public openEchoJam(): void {
+    if (this.windowService.windowOfTypeIsOpen(EchoJamComponent)) {
+      return;
+    };
     this.windowService.openWindow(WindowComponent, EchoJamComponent, {
       width: 600,
       height: 400,

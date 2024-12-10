@@ -80,6 +80,10 @@ export class WindowService implements OnInit {
     console.log(sorted)
     return sorted[sorted.length - 1] + 1;
   }
+
+  public windowOfTypeIsOpen(type: Type<any>): boolean {
+    return this.openWindows.some(w => w.ref.instance.data === type);
+}
 }
 
 export class WindowModel {
