@@ -55,12 +55,24 @@ export class WindowService implements OnInit {
   }
 
   public setZindex(ref: ComponentRef<WindowComponent>): void {
-    let model = this.openWindows.find((w: WindowModel) => { return w.ref === ref });
+    const model = this.openWindows.find((w: WindowModel) => w.ref === ref);
     if (!model) {
-      return
+      return;
     }
-    model.zIndex = this.newZIndex
-    model.ref?.instance.setZIndex(model.zIndex)
+  
+    const highestZIndex = this.openWindows.length;
+  
+    model.zIndex = highestZIndex;
+    model.ref?.instance.setZIndex(model.zIndex);
+  
+    this.openWindows.forEach((window) => {
+      if (window !== model && window.zIndex === highestZIndex) {
+        window.zIndex -= 1;
+        window.ref?.instance.setZIndex(window.zIndex);
+      }
+    });
+
+    console.log(this.openWindows.map(w => ({ zIndex: w.zIndex, guid: w.ref.instance.guid })));
   }
 
   public hasFocus(): WindowComponent { 

@@ -78,8 +78,8 @@ export class AppComponent implements OnInit, AfterViewInit {
       return;
     };
     this.windowService.openWindow(WindowComponent, EchoJamComponent, {
-      width: 600,
-      height: 400,
+      width: 704,
+      height: 448,
       fitToContent: true
     });
   }
