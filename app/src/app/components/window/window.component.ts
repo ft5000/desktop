@@ -81,6 +81,10 @@ export class WindowComponent implements AfterViewInit {
     const target = event.target as HTMLElement;
     if (this.container.contains(event.target as Node)) {
       this.reorganizeWindows();
+
+      if (window.getSelection) {
+        window.getSelection()?.removeAllRanges();
+      }
     }
     
     if (this.hasClickedWindowBar(target)) {

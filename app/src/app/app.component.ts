@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   private subscribers = new Subscriber();
   private isRendering = false;
   
-  constructor(private windowService: WindowService, private audioService: AudioService) {
+  constructor(private windowService: WindowService) {
 
   }
 
