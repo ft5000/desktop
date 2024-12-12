@@ -1,0 +1,51 @@
+.splash {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    opacity: 1;
+    user-select: none;
+    transition: top 1s, opacity 1s;
+
+    .splash-console {
+        position: relative;
+        width: fit-content;
+        height: 100vh;
+        left: 0;
+        bottom: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        padding-left: 32px;
+    
+        .splash-message {
+            font-family: "VT323";
+            font-size: 24px;
+            margin-top: 0;
+            margin-bottom: 16px;
+
+        }
+        
+        .splash-message.fade {
+            animation: fade 800ms forwards;
+        }
+        
+    }    
+}
+
+.splash.hidden {
+    top: -100vh;
+    opacity: 0;
+}
+
+
+
+@keyframes fade {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}

@@ -20,6 +20,17 @@ body {
     font-size: 14pt;
 }
 
+.desktop-container {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    transition: bottom 1s;
+}
+
+.desktop-container.hidden {
+    bottom: -100vh;
+}
+
 .row {
     display: flex;
     flex-direction: row;

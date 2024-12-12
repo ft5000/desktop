@@ -8,6 +8,7 @@ main {
     grid-template-columns: auto;
     user-select: none;
     margin: 16px;
+    padding-top: 16px;
 }
 
 .toolbar {

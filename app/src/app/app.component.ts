@@ -8,7 +8,7 @@ import { SkullSpinComponent } from './components/skull-spin/skull-spin.component
 import { ReadmeComponent } from './components/readme/readme.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { EchoJamComponent } from './components/echo-jam/echo-jam.component';
-import { AudioService } from './services/audio.service';
+import { DesktopService } from './services/desktop.service';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +23,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   private subscribers = new Subscriber();
   private isRendering = false;
   
-  constructor(private windowService: WindowService) {
+  constructor(private windowService: WindowService, private desktopService: DesktopService) {
 
   }
 
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit {
         }
       }
       document.title = title.join('');
-    }, 100)
+    }, 100);
   }
 
   ngAfterViewInit(): void {
@@ -102,5 +102,9 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.windowService.addOpenWindow(componentRef);
     this.isRendering = false;
+  }
+
+  public get hideDesktop(): boolean {
+    return this.desktopService.hideDesktop;
   }
 }

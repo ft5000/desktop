@@ -71,8 +71,6 @@ export class WindowService implements OnInit {
         window.ref?.instance.setZIndex(window.zIndex);
       }
     });
-
-    console.log(this.openWindows.map(w => ({ zIndex: w.zIndex, guid: w.ref.instance.guid })));
   }
 
   public hasFocus(): WindowComponent { 

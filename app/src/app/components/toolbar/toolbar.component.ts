@@ -22,6 +22,7 @@ export class ToolbarComponent implements OnInit {
 
   ngOnInit(): void {
     this.subscribers.add(this.windowService._openWindows$.subscribe((windows: WindowModel[]) => {
+      setTimeout(() => {
       windows.forEach((w: WindowModel) => {
         if (!this.tabs.some(t => t.item.guid === w.ref.instance.guid)) {
           this.tabs.push({ id: this.tabs.length, item: w.ref.instance });
@@ -29,6 +30,7 @@ export class ToolbarComponent implements OnInit {
       });
       this.tabs = this.tabs.filter(t => windows.some(w => w.ref.instance.guid === t.item.guid));
       this.hasOpenWindows = this.tabs.length > 0;
+      });
     }));
   }
 

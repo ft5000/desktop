@@ -5,6 +5,7 @@ import { WindowComponent } from './components/window/window.component';
 import { IconComponent } from './components/icon/icon.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { PlayerComponent } from './components/player/player.component';
+import { SplashScreenComponent } from './components/splash-screen/splash-screen.component';
 
 
 
@@ -17,6 +18,7 @@ import { PlayerComponent } from './components/player/player.component';
     IconComponent,
     ToolbarComponent,
     PlayerComponent,
+    SplashScreenComponent,
   ],
   exports: [
     CommonModule,
@@ -24,6 +26,7 @@ import { PlayerComponent } from './components/player/player.component';
     IconComponent,
     ToolbarComponent,
     PlayerComponent,
+    SplashScreenComponent,
   ],
   bootstrap: [AppComponent]
 })

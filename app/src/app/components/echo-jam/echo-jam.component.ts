@@ -209,7 +209,6 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
 
   public setYeOldeTheme(): void {
     this.theme = 'ye_olde';
-    console.log('Ye Olde Theme', this.theme);
     const echo = document.querySelector('.echo-container') as HTMLElement;
     if (echo) {
       echo.style.setProperty('--primary1', 'pink');
