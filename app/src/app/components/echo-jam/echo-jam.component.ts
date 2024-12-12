@@ -24,9 +24,11 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
   public themes: string[] = [
     'mono_dark',
     'blood',
+    'ye_olde',
   ];
 
-  public theme: string = 'mono-dark';
+  public theme: string = 'mono_dark';
+  private themeIndex: number = 0;
 
   private textPos: number = 0;
   private updateTitle: any;
@@ -52,8 +54,6 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
   ngOnInit(): void {
     this.audioService.playlist = this.audioFiles;
     this.audioService.loadSound();
-
-    this.setBloodTheme();
 
     this.updateTitle = setInterval(() => {
       if (this.textPos == 0) {
@@ -171,10 +171,17 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
   }
 
   public changeTheme(): void {
-    if (this.theme === 'mono_dark') {
-      this.setBloodTheme();
-    } else {
-      this.setMonoDarkTheme();
+    this.themeIndex = this.themeIndex + 1 < this.themes.length ? this.themeIndex + 1 : 0;
+    switch (this.themeIndex) {
+      case EchoTheme.MONO_DARK:
+        this.setMonoDarkTheme();
+        break;
+      case EchoTheme.BLOOD:
+        this.setBloodTheme();
+        break;
+      case EchoTheme.YE_OLDE:
+        this.setYeOldeTheme();
+        break;
     }
   }
 
@@ -199,4 +206,22 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
       echo.style.setProperty('--slider', "url('../../../assets/images/echo/skins/mono_dark/vol_slide.png')");
     }
   }
+
+  public setYeOldeTheme(): void {
+    this.theme = 'ye_olde';
+    console.log('Ye Olde Theme', this.theme);
+    const echo = document.querySelector('.echo-container') as HTMLElement;
+    if (echo) {
+      echo.style.setProperty('--primary1', 'pink');
+      echo.style.setProperty('--primary2', 'white');
+      echo.style.setProperty('--secondary', 'red');
+      echo.style.setProperty('--slider', "url('../../../assets/images/echo/skins/ye_olde/vol_slide.png')");
+    }
+  }
+}
+
+export enum EchoTheme {
+  MONO_DARK = 0,
+  BLOOD = 1,
+  YE_OLDE = 2,
 }
