@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, ViewChild, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { DesktopService } from 'src/app/services/desktop.service';
 
 @Component({
@@ -9,34 +9,43 @@ import { DesktopService } from 'src/app/services/desktop.service';
   styleUrl: './splash-screen.component.css',
   encapsulation: ViewEncapsulation.None, // Disable encapsulation
 })
-export class SplashScreenComponent implements AfterViewInit{
+export class SplashScreenComponent implements AfterViewInit, OnInit{
   @ViewChild('console') splashConsole: HTMLElement | undefined;
   private logInterval: any;
   private logCount: number = 0;
-  private readonly logCountMax: number = 1000;
+  private readonly logCountMax: number = 100;
   private readonly logDeleteMax: number = 100;
   public hide = false;
 
+  private startupSound: Howl = new Howl({ src: 'assets/audio/desktop/startup.wav', volume: 0.5 });
+
   constructor(private desktopSevice: DesktopService) { }
 
+  ngOnInit(): void {
+
+  }
+
   ngAfterViewInit(): void {
+
+  }
+
+  public onEnter(): void {
+    document.getElementById('enter-btn')?.remove();
     this.splashConsole = document.getElementById('console') as HTMLElement | undefined;
     this.logInterval = setInterval(() => {
       if (!this.loaded) {
         this.log();
       }
       else if (!this.hide) {
-        console.log('Hiding splash screen', this.logCount);
+        this.startupSound.play();
+        this.hide = true;
+        this.desktopSevice.hideDesktop = false;
         setTimeout(() => {
-          this.hide = true;
-          this.desktopSevice.hideDesktop = false;
-          setTimeout(() => {
-            clearInterval(this.logInterval);
-            this.desktopSevice.removeSplashScreen();
-          }, 1000);
+          clearInterval(this.logInterval);
+          this.desktopSevice.removeSplashScreen();
         }, 1000);
       }
-    });
+    }, 10);
   }
 
   private get newMessage(): HTMLElement {
