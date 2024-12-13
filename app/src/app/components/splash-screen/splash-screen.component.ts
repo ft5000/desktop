@@ -10,14 +10,16 @@ import { DesktopService } from 'src/app/services/desktop.service';
   encapsulation: ViewEncapsulation.None, // Disable encapsulation
 })
 export class SplashScreenComponent implements AfterViewInit {
-  @ViewChild('console') splashConsole: HTMLElement | undefined;
   private logInterval: any;
   private logCount: number = 0;
-  private readonly logCountMax: number = 256;
-  private readonly logDeleteMax: number = 1000;
+  private readonly logCountMax: number = 2048;
+  private readonly logDeleteMax: number = 10000;
+  private consoleCount: number = 0;
+  private logs: HTMLElement[] = [];
   public hide = false;
 
-  private startupSound: Howl = new Howl({ src: 'assets/audio/desktop/startup.wav', volume: 0.3 });
+  private bootSound: Howl = new Howl({ src: 'assets/audio/desktop/boot.wav', volume: 0.25 });
+  private startupSound: Howl = new Howl({ src: 'assets/audio/desktop/startup.wav', volume: 0.5 });
 
   constructor(private desktopSevice: DesktopService) { }
 
@@ -25,26 +27,58 @@ export class SplashScreenComponent implements AfterViewInit {
   }
 
   public onEnter(): void {
+    this.bootSound.rate(0.9);
+    this.bootSound.play();
+    var it = this.calculateRequiredConsoles();
     document.getElementById('enter-btn')?.remove();
-    this.splashConsole = document.getElementById('console') as HTMLElement | undefined;
-    this.logInterval = setInterval(() => {
-      if (!this.loaded) {
-        this.log();
+    setInterval(() => {
+      this.findOutdatedMessages();
+    });
+    for (let i = 0; i < it; i++) {{
+      setTimeout(() => {
+        let consoleCount = this.appendNewConsole();
+        this.logInterval = setInterval(() => {
+          if (!this.loaded) {
+            this.log(consoleCount);
+          }
+          else if (!this.hide) {
+            clearInterval(this.logInterval);
+            setTimeout(() => {
+              if (!this.startupSound.playing()) {
+                if (this.bootSound.playing()) {
+                  this.bootSound.fade(0.25, 0, 1000);
+                }
+                this.startupSound.play();
+              }
+              this.hide = true;
+              this.desktopSevice.hideDesktop = false;
+              setTimeout(() => {
+                this.desktopSevice.removeSplashScreen();
+              }, 1000);
+            }, 1000);
+          }
+        }, 10);
+      }, 60 * i);
       }
-      else if (!this.hide) {
-        clearInterval(this.logInterval);
-        setTimeout(() => {
-          // if (!this.startupSound.playing()) {
-          //   this.startupSound.play();
-          // }
-          this.hide = true;
-          this.desktopSevice.hideDesktop = false;
-          setTimeout(() => {
-            this.desktopSevice.removeSplashScreen();
-          }, 1000);
-        }, 1000);
-      }
-    }, 10);
+    }
+  }
+
+  public calculateRequiredConsoles(): number {
+    const screenWidth = window.innerWidth;
+    const consoleWidth = 200;
+    const horizontalConsoles = Math.floor(screenWidth / consoleWidth);
+    return horizontalConsoles;
+}
+
+  private appendNewConsole(): number {
+    var container = document.getElementById('splash-container') as HTMLElement;
+    var console = document.createElement('div');
+    var count = this.consoleCount;
+    console.id = `console-${this.consoleCount}`;
+    console.classList.add('splash-console');
+    container.appendChild(console);
+    this.consoleCount++;
+    return count;
   }
 
   private get newMessage(): HTMLElement {
@@ -61,6 +95,9 @@ export class SplashScreenComponent implements AfterViewInit {
     if (this.logCount < this.logCountMax) {
       mess.classList.add('fade');
     }
+    else {
+      mess.style.color = 'lime';
+    }
     return mess;
   }
 
@@ -73,12 +110,26 @@ export class SplashScreenComponent implements AfterViewInit {
     return dots;
   }
 
-  private log() {
-    this.splashConsole?.appendChild(this.newMessage);
-    if (this.logCount > this.logDeleteMax) {
-      this.splashConsole?.removeChild(this.splashConsole?.firstChild as Node);
-    }
+  private log(consoleCount: number): void {
+    var console = document.getElementById(`console-${consoleCount}`) as HTMLElement;
+    var message = this.newMessage;
+    console?.appendChild(message);
     this.logCount++;
+    this.logs.push(this.newMessage)
+  }
+
+  private findOutdatedMessages(): void {
+    this.logs = Array.from(document.querySelectorAll('.splash-message'));
+
+    for (let i = this.logs.length - 1; i >= 0; i--) {
+        const log = this.logs[i];
+        const rect = log.getBoundingClientRect();
+
+        if (rect.bottom < 0) {
+            log.remove();
+            this.logs.splice(i, 1);
+        }
+    }
   }
 
   public get loaded(): boolean {

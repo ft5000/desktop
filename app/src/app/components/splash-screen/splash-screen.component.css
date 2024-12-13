@@ -6,6 +6,11 @@
     height: 100vh;
     opacity: 1;
     transition: top 1s, opacity 1s;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Create responsive grid */
+    grid-auto-rows: 100vh; /* Ensure each cell spans the full height */
+    justify-content: center; /* Equal spacing between items horizontally */
+    align-content: space-between; /* Equal spacing between rows vertically */
 
     #enter-btn {
         all: unset;
@@ -26,15 +31,13 @@
 
     .splash-console {
         user-select: none;
-        position: relative;
-        width: fit-content;
         height: 100vh;
-        left: 0;
-        bottom: 0;
         display: flex;
         flex-direction: column;
         justify-content: flex-end;
         padding-left: 18px;
+        width: 200px;
+        color: white;
     
         .splash-message {
             font-family: "VT323";
@@ -44,9 +47,8 @@
         }
         
         .splash-message.fade {
-            animation: fade 800ms forwards;
+            animation: fade 2s forwards;
         }
-        
     }    
 }
 
