@@ -7,26 +7,77 @@
     opacity: 1;
     transition: top 1s, opacity 1s;
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Create responsive grid */
-    grid-auto-rows: 100vh; /* Ensure each cell spans the full height */
-    justify-content: center; /* Equal spacing between items horizontally */
-    align-content: space-between; /* Equal spacing between rows vertically */
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-auto-rows: 100vh;
+    justify-content: center;
+    align-content: space-between;
 
-    #enter-btn {
-        all: unset;
-        cursor: pointer;
-        color: white;
-        font-family: "VT323";
-        font-size: 24px;
+    .button-container {
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-    }
+        width: fit-content;
+        height: fit-content;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        image-rendering: auto;
 
-    #enter-btn:hover {
-        opacity: 0.3;
-        text-decoration: underline;
+        .item {
+            margin: auto;
+            margin-bottom: 1rem;
+        }
+
+        button, a {
+            all: unset;
+            cursor: pointer;
+            color: white;
+            font-family: "VT323";
+            font-size: 18pt;
+            margin: auto;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        button:hover, a:hover {
+            color: blue;
+            text-decoration: underline;
+        }
+
+        button::before,
+        a::before,
+        button::after,
+        a::after {
+            content: '';
+            background-image: url('../../../assets/favicon1.png');
+            width: 24px;
+            aspect-ratio: 1;
+            background-size: cover;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        button::before,
+        a::before {
+            position: absolute;
+            left: -48px;
+            animation: spin 500ms linear infinite;
+        }
+        
+        button::after,
+        a::after {
+            position: absolute;
+            right: -48px;
+            animation: spin 500ms linear infinite;
+        }
+
+        button:hover::before,
+        a:hover::before,
+        button:hover::after,
+        a:hover::after {
+            opacity: 1;
+        }
     }
 
     .splash-console {
@@ -73,5 +124,17 @@
     }
     to {
         transform: translateY(0);
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: scaleX(0);
+    }
+    50% {
+        transform: scaleX(-1)
+    }
+    100% {
+        transform: scaleX(0);
     }
 }

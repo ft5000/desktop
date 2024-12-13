@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Subscriber } from 'rxjs';
 import { AppModule } from 'src/app/app.module';
 import { WindowContent } from 'src/app/models/WindowContent';
@@ -11,7 +11,7 @@ import { AudioService } from 'src/app/services/audio.service';
   styleUrl: './echo-jam.component.css',
   encapsulation: ViewEncapsulation.None,
 })
-export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy {
+export class EchoJamComponent extends WindowContent implements OnInit, AfterViewInit, OnDestroy {
   private audioFiles: string[] = [
     'cycle.mp3',
     'marine.mp3',
@@ -63,14 +63,17 @@ export class EchoJamComponent extends WindowContent implements OnInit, OnDestroy
       let selected = this.audioService.selected;
       this.selectedTitle = selected.length > 16 ? this.scrollText(this.audioService.selected) : selected;
     }, 500)
+  }
 
+  ngAfterViewInit(): void {
     this.initGfx();
     this.drawInterval = setInterval(() => {
       this.draw();
-    }, 60)
-
+    }, 60);
     this.draw();
+    this.setMonoDarkTheme();
   }
+
 
   private initGfx(): void {
     this.canvas = document.getElementById('gfx') as HTMLCanvasElement;

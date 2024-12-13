@@ -1,4 +1,29 @@
 <div id="splash-container" class="splash" [ngClass]="{'hidden': hide}">
-    <button id="enter-btn" (click)="onEnter()">Enter</button>
-    <!-- <div id="console" class="splash-console"></div> -->
+    <div id="button-container" class="button-container">
+        <button *ngIf="!isMobile" 
+            (click)="onEnter()"
+            (mouseover)="textMosh($event, 'Enter')"
+            (mouseout)="resetText($event, 'Enter')">
+            Enter
+        </button>
+        <a href="https://ft5000.github.io/dark-descent/" target="_blank"
+            (mouseover)="textMosh($event, 'Dark Descent')"
+            (mouseout)="resetText($event, 'Dark Descent')">
+            Dark Descent
+        </a>
+        <a href="https://www.linkedin.com/in/fabian-tjernstr%C3%B6m-b6028520a/" target="_blank"
+            (mouseover)="textMosh($event, 'LinkedIn')"
+            (mouseout)="resetText($event, 'LinkedIn')">
+            LinkedIn
+        </a>
+        <a href="mailto:fabian.tjernstrom@gmail.com"
+            (mouseover)="textMosh($event, 'E-mail')"
+            (mouseout)="resetText($event, 'E-mail')">
+            E-mail
+        </a>
+        <br>
+        <!-- <div class="item">
+            <img src="../../../assets/favicon1.png" width="32px" />
+        </div> -->
+    </div>
 </div>

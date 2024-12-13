@@ -9,7 +9,7 @@ import { DesktopService } from 'src/app/services/desktop.service';
   styleUrl: './splash-screen.component.css',
   encapsulation: ViewEncapsulation.None, // Disable encapsulation
 })
-export class SplashScreenComponent implements AfterViewInit {
+export class SplashScreenComponent implements OnInit, AfterViewInit {
   private logInterval: any;
   private logCount: number = 0;
   private readonly logCountMax: number = 2048;
@@ -17,32 +17,41 @@ export class SplashScreenComponent implements AfterViewInit {
   private consoleCount: number = 0;
   private logs: HTMLElement[] = [];
   public hide = false;
+  public isMobile: boolean = this.isMobileUser();
+  private moshIntervals: Map<HTMLElement, number> = new Map();
+  private logIntervals: number[] = [];
 
   private bootSound: Howl = new Howl({ src: 'assets/audio/desktop/boot.wav', volume: 0.25 });
   private startupSound: Howl = new Howl({ src: 'assets/audio/desktop/startup.wav', volume: 0.5 });
 
   constructor(private desktopSevice: DesktopService) { }
 
+  ngOnInit(): void {
+    
+
+  }
+
   ngAfterViewInit(): void {
+
   }
 
   public onEnter(): void {
     this.bootSound.rate(0.9);
     this.bootSound.play();
     var it = this.calculateRequiredConsoles();
-    document.getElementById('enter-btn')?.remove();
+    document.getElementById('button-container')?.remove();
     setInterval(() => {
       this.findOutdatedMessages();
     });
     for (let i = 0; i < it; i++) {{
       setTimeout(() => {
         let consoleCount = this.appendNewConsole();
-        this.logInterval = setInterval(() => {
+        const logInterval = setInterval(() => {
           if (!this.loaded) {
             this.log(consoleCount);
           }
           else if (!this.hide) {
-            clearInterval(this.logInterval);
+            this.logIntervals.forEach(interval => clearInterval(interval));
             setTimeout(() => {
               if (!this.startupSound.playing()) {
                 if (this.bootSound.playing()) {
@@ -58,9 +67,38 @@ export class SplashScreenComponent implements AfterViewInit {
             }, 1000);
           }
         }, 10);
+        this.logIntervals.push(logInterval as any);
       }, 60 * i);
       }
     }
+  }
+
+  private isMobileUser(): boolean {
+    const userAgent = navigator.userAgent || navigator.vendor;
+    return /android|iphone|ipad|ipod|blackberry|iemobile|opera mini/i.test(userAgent);
+  }
+
+  public textMosh(event: Event, originalText: string) {
+    const target = event.target as HTMLElement;
+    const intervalId = setInterval(() => {
+      const randomized = Array.from(originalText)
+      .map(() => String.fromCharCode(33 + Math.random() * 94))
+      .join('');
+    target.textContent = randomized;
+    }, 100);
+
+    this.moshIntervals.set(target, intervalId as any);
+  }
+
+  public resetText(event: Event, originalText: string) {
+    const target = event.target as HTMLElement;
+
+    if (this.moshIntervals.has(target)) {
+      clearInterval(this.moshIntervals.get(target)!);
+      this.moshIntervals.delete(target);
+    }
+
+    target.textContent = originalText;
   }
 
   public calculateRequiredConsoles(): number {
@@ -68,7 +106,7 @@ export class SplashScreenComponent implements AfterViewInit {
     const consoleWidth = 200;
     const horizontalConsoles = Math.floor(screenWidth / consoleWidth);
     return horizontalConsoles;
-}
+  }
 
   private appendNewConsole(): number {
     var container = document.getElementById('splash-container') as HTMLElement;
