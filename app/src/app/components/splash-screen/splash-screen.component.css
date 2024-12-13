@@ -38,6 +38,7 @@
         padding-left: 18px;
         width: 200px;
         color: white;
+        animation: consoleAppend 240ms forwards;
     
         .splash-message {
             font-family: "VT323";
@@ -57,13 +58,20 @@
     opacity: 0;
 }
 
-
-
 @keyframes fade {
     from {
         opacity: 1;
     }
     to {
         opacity: 0;
+    }
+}
+
+@keyframes consoleAppend {
+    from {
+        transform: translateY(-25vh);
+    }
+    to {
+        transform: translateY(0);
     }
 }
