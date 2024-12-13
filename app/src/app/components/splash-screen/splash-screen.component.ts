@@ -9,24 +9,19 @@ import { DesktopService } from 'src/app/services/desktop.service';
   styleUrl: './splash-screen.component.css',
   encapsulation: ViewEncapsulation.None, // Disable encapsulation
 })
-export class SplashScreenComponent implements AfterViewInit, OnInit{
+export class SplashScreenComponent implements AfterViewInit {
   @ViewChild('console') splashConsole: HTMLElement | undefined;
   private logInterval: any;
   private logCount: number = 0;
-  private readonly logCountMax: number = 100;
-  private readonly logDeleteMax: number = 100;
+  private readonly logCountMax: number = 256;
+  private readonly logDeleteMax: number = 1000;
   public hide = false;
 
-  private startupSound: Howl = new Howl({ src: 'assets/audio/desktop/startup.wav', volume: 0.5 });
+  private startupSound: Howl = new Howl({ src: 'assets/audio/desktop/startup.wav', volume: 0.3 });
 
   constructor(private desktopSevice: DesktopService) { }
 
-  ngOnInit(): void {
-
-  }
-
   ngAfterViewInit(): void {
-
   }
 
   public onEnter(): void {
@@ -37,12 +32,16 @@ export class SplashScreenComponent implements AfterViewInit, OnInit{
         this.log();
       }
       else if (!this.hide) {
-        this.startupSound.play();
-        this.hide = true;
-        this.desktopSevice.hideDesktop = false;
+        clearInterval(this.logInterval);
         setTimeout(() => {
-          clearInterval(this.logInterval);
-          this.desktopSevice.removeSplashScreen();
+          // if (!this.startupSound.playing()) {
+          //   this.startupSound.play();
+          // }
+          this.hide = true;
+          this.desktopSevice.hideDesktop = false;
+          setTimeout(() => {
+            this.desktopSevice.removeSplashScreen();
+          }, 1000);
         }, 1000);
       }
     }, 10);

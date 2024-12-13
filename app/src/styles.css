@@ -29,6 +29,8 @@ body {
 
 .desktop-container.hidden {
     bottom: -100vh;
+    pointer-events: none;
+    visibility: hidden;
 }
 
 .row {
